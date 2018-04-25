@@ -22,7 +22,8 @@ os.mkdir(out_dir)
 dic1 = dict(csv.reader(open('abbrev.txt')))
 dic2 = dict(csv.reader(open('mwe.txt')))
 
-for file in os.listdir(in_dir):
+for e,file in enumerate(os.listdir(in_dir)):
+    print e,file
     # --- read document
     f = open(in_dir + file, 'r')
     doc = f.read()
