@@ -3,6 +3,7 @@ import scipy.special
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from collections import Counter
+from sklearn.linear_model import LogisticRegression
 
 lemmatizer = WordNetLemmatizer()
 
@@ -224,4 +225,82 @@ def docseg_emb_helmholtz(docsent, model, kms, window_size = 4):
                 gapscore[gi+1] += dc_meaningful[w]
     return gapscore
 
+class HelmholtzClassifier(object):
+    """
+    Helmholtz principle based classifier.
+    """
+    def __init__(self, tags, meaning_threshold = 1.1):
+        self. tags = tags
+        self.classifiers = dict([(t, None) for t in tags])
+        self.meanfulldc = None
+        self.meaning_threshold = meaning_threshold
 
+    def meaningfulness(self, text, score_dict, splitter = ' '):
+        '''
+        Returns meaningfulness.
+        Args:
+          score_dict (dict) - scores for particular words (key, score) e.g {(cat, 1.1), (frog, 0.4)}
+          splitter (str) - how to split text, default: ' '
+        Returns:
+          numeric value
+        '''
+        val = 0
+        for tok in text.split(splitter):
+            if tok in score_dict:
+                val += score_dict[tok]
+        return val
+
+    def fit(self, X, y):
+        '''
+        Trains Logistion Regression classifiers using Helmholtz principle features.
+        Args:
+          *X* (list <str>) - vector of data in textual format
+          *y* (list <str>) - list of labels with met or not met condition 
+        '''
+        texts = X
+        annots = y
+        tags = self.tags
+        containers = dict([(x, []) for x in tags])
+
+        # Create containers with texts belonging to each tag
+        for tt, aa in zip(texts, annots):
+            for tg in tags:
+                if aa[tg] == 'met':
+                    containers[tg].append(tt)
+
+        # Join texts together
+        longcont = dict()
+        full_doc = []
+        for tg in tags:
+            longcont[tg] = ''.join(containers[tg]).split(' ')
+            full_doc.append(longcont[tg])
+
+        # Make counters and calculate Helmholtz score
+        doc_dc = make_count_dict(flat_list(full_doc))
+        Ldoc = len(flat_list(full_doc))
+        meanfulldc = dict()
+        for tg in tags:
+            cont_dc = make_count_dict(longcont[tg])
+            vec_meaning = get_meaning_for_tokens(cont_dc, doc_dc, int(Ldoc*1./len(cont_dc)))
+            meanfulldc[tg] = dict([(k,v) for k,v in vec_meaning if v > self.meaning_threshold])
+        self.meanfulldc = meanfulldc
+        # Train LogReg classifiers per each tag
+        for tg in tags:
+            notmetvec, metvec = [], []
+            for tt, aa in zip(texts, annots):
+                vm = self.meaningfulness(tt, meanfulldc[tg])
+                if aa[tg] == 'met':
+                    metvec.append(vm)
+                else:
+                    notmetvec.append(vm)
+            clf = LogisticRegression()
+            features = np.array(notmetvec + metvec).reshape(-1, 1)
+            clf.fit(features, [0]*len(notmetvec)+[1]*len(metvec))
+            self.classifiers[tg] = clf
+
+    def predict(self, text, tag_name):
+        """Make prediction based on text for particular tag"""
+        if self.meanfulldc is None:
+            raise Exception("You need to train me first!")
+        helm_score = self.meaningfulness(text, self.meanfulldc[tag_name])
+        return self.classifiers[tag_name].predict(helm_score)[0]

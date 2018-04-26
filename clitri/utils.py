@@ -10,7 +10,7 @@ from collections import defaultdict
 DEFAULT_MODELS = {
     'DiscoverCreatinine' : 'models/model_CREATININE.pkl',
     'DiscoverAlcohol' : 'models/model_ALCOHOL-ABUSE.pkl',
-    'DiscoverDrug': 'models/model_DRUG-ABUSE.pkl'
+    'DiscoverDrug': 'models/model_DRUG-ABUSE.pkl',
     'DiscoverHBA1C' : 'models/model_HBA1C.pkl',
     'DiscoverKeto' : 'models/model_KETO-1YR.pkl',
     'DiscoverAbdominal' : 'models/model_ABDOMINAL.pkl',

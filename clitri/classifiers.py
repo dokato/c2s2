@@ -43,8 +43,6 @@ def build_model(clf, trdata, annotations, tfidf_name, label, file_to_save = None
 if __name__ == '__main__':
     mcdata = load_whole_dataset()
     texts, annots = get_training_from_mc(mcdata)
-    texts_cl = [default_text_preprocessing(txt) for txt in texts]
-    tags = annots[0].keys()
 
     parser = argparse.ArgumentParser(description="Builds clf model. Will be stored in 'models' folder.")
     parser.add_argument("-t", "--tfidf", dest="tfidf", default=None, type=str,
@@ -62,7 +60,7 @@ if __name__ == '__main__':
     else:
         clf = eval(args.classifier + "()")
         vectorizer = 'models/' + args.vectorizer if args.vectorizer else DEFAULT_VECTORIZER 
-        for tag in tags:
+        for tag in TAGS_LABELS:
             print('Building: ' + tag)
-            build_model(clf, texts_cl, annots, vectorizer, tag, 'models/' + args.name)
+            build_model(clf, texts, annots, vectorizer, tag, 'models/' + args.name)
         print('.')

@@ -1,4 +1,4 @@
-import re, os,copy
+import re, os, copy
 import xml.etree.cElementTree as ET
 from datetime import datetime
 
@@ -25,11 +25,15 @@ class MedicalCase(object):
         if conner:
             self.conner = self._read_conner(conner)
 
-    def build_tags(self, noprint = False):
+    def build_tags(self, noprint = False, save = False, save_folder = 'output'):
         """Build output tags and save them to XML format if *save* is True"""
         root = build_tags(self.annots)
         if not noprint:
             print ET.tostring(root, 'utf-8')
+        if save:
+            strdata = ET.tostring(root, 'utf-8')
+            with open(os.path.join(save_folder, self.name + '.xml'), "w") as f:
+                f.write(strdata)
 
     def meaningfulness(self, score_dict, splitter = ' '):
         '''
