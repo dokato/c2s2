@@ -31,7 +31,10 @@ def build_model(clf, trdata, annotations, tfidf_name, label, file_to_save = None
     annot_enc = np.array([encode_annotations(ant) for ant in annotations])
     tag_enc = get_tag_encoding(annot_enc, label)
     X_tr = vectorizer.transform(trdata)
-    clf.fit(X_tr, tag_enc)
+    if clf.__class__.__name__ != 'HelmholtzClassifier':
+        clf.fit(X_tr, tag_enc)
+    else:
+        clf.fit(trdata, annotations)
     if file_to_save:
         if time:
             now = str(datetime.datetime.now())[:-7].replace(':','_').replace(' ','_').replace('-','_')
@@ -54,13 +57,21 @@ if __name__ == '__main__':
                          help="method of source reconstruction")
     parser.add_argument("-v", "--vectorizer", dest="vectorizer", type = str, default = None,
                          help="if given uses specific vectorizer. Must be in models folder")
+    parser.add_argument("-g", "--tag", dest="tag", type = str, default = None,
+                         help="Tag to train. If not given, all models will be created.")
     args = parser.parse_args()
     if not args.tfidf is None:
         build_tfidf(texts_cl, 'models/' + args.tfidf)
     else:
-        clf = eval(args.classifier + "()")
-        vectorizer = 'models/' + args.vectorizer if args.vectorizer else DEFAULT_VECTORIZER 
-        for tag in TAGS_LABELS:
-            print('Building: ' + tag)
-            build_model(clf, texts, annots, vectorizer, tag, 'models/' + args.name)
+        if args.classifier != 'HelmholtzClassifier':
+            clf = eval(args.classifier + "()")
+        else:
+            clf = eval(args.classifier + "(TAGS_LABELS)")
+        vectorizer = 'models/' + args.vectorizer if args.vectorizer else DEFAULT_VECTORIZER
+        if args.tag:
+            build_model(clf, texts, annots, vectorizer, args.tag, 'models/' + args.name)
+        else:
+            for tag in TAGS_LABELS:
+                print('Building: ' + tag)
+                build_model(clf, texts, annots, vectorizer, tag, 'models/' + args.name)
         print('.')

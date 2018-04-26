@@ -15,12 +15,15 @@ class MedicalCase(object):
           conner (str) - path to NER clinical annotations in i2b2 format
         """
         self.name = name
-        self.text = get_description(description_path) if description_path.endswith('.xml') else get_raw_txt(description_path)
-        self.text = default_text_preprocessing(self.text)
+        self.clean_text = get_description(description_path) if description_path.endswith('.xml') else get_raw_txt(description_path)
+        self.text = default_text_preprocessing(self.clean_text)
         self.gold = get_annotations(annotation_path) if annotation_path else None
         self.annots = copy.copy(EMPTY_ANNOT)
         self.time_splits = []
-        #self._make_time_splits()
+        try:
+            self._make_time_splits()
+        except Exception:
+            raise Warning('Problem with splits')
         self.conner = None
         if conner:
             self.conner = self._read_conner(conner)
@@ -55,20 +58,28 @@ class MedicalCase(object):
         Splits description text into time steps based on "record date" pattern.
         """
         self.time_splits = []
-        rex = re.compile("record date[ \n:]*[0-9][0-9][0-9][0-9][ \n]+[0-9][0-9][ \n]+[0-9][0-9]")
-        cuts = [(m.start(), m.end()) for m in rex.finditer(self.text)]
+        rex = re.compile("record date[ \n:].")
+        rex_date = re.compile("[0-9][0-9][0-9][0-9][ ]+[0-9][0-9][ ]+[0-9][0-9]")
+        cuts = [(m.start(), m.end()) for m in rex.finditer(self.clean_text)]
         if len(cuts) > 1:
             for i in range(len(cuts)-1):
-                date = datetime.strptime(self.text[cuts[i][1]-10:cuts[i][1]], '%Y %m %d')
+                cutting = self.clean_text[cuts[i][0]:cuts[i][0]+40].replace('\n', ' ')
+                pattdate =  rex_date.findall(cutting)[0]
+                date = datetime.strptime(pattdate, '%Y %m %d')
                 txt = self.text[cuts[i][1]:cuts[i+1][0]]
-                self.time_splits.append((date, txt))
-            date = datetime.strptime(self.text[cuts[i+1][1]-10:cuts[i+1][1]], '%Y %m %d')
-            txt = self.text[cuts[i+1][1]:]
-            self.time_splits.append((date, txt))
+                self.time_splits.append((date, default_text_preprocessing(txt)))
+            cutting = self.clean_text[cuts[-1][0]:cuts[-1][0]+40].replace('\n', ' ')
+            pattdate =  rex_date.findall(cutting)[0]
+            date = datetime.strptime(pattdate, '%Y %m %d')
+            txt = self.text[cuts[-1][1]:]
+            self.time_splits.append((date, default_text_preprocessing(txt)))
         else:
-            date = datetime.strptime(self.text[cuts[0][1]-10:cuts[0][1]], '%Y %m %d')
-            txt = self.text[cuts[0][1]:]
-            self.time_splits.append((date, txt))
+            cutting = self.clean_text[cuts[0][0]:cuts[0][0]+40].replace('\n', ' ')
+            pattdate =  rex_date.findall(cutting)[0]
+            date = datetime.strptime(pattdate, '%Y %m %d')
+            txt = self.text[cuts[-1][1]:]            
+            self.time_splits.append((date, default_text_preprocessing(txt)))
+        print self.time_splits
 
     def _read_conner(self, path):
         """Returns ConNer object"""
@@ -96,9 +107,9 @@ if __name__ == '__main__':
     import sys
     subj = sys.argv[1]
     mc = MedicalCase(subj,
-        description_path = '01_preprocessed/{}.xml.txt'.format(subj),
+        description_path = 'preproc/02_main/{}.xml.txt'.format(subj),
         annotation_path = 'train/{}.xml'.format(subj),
         conner = 'condtaggeddata/{}.xml.con'.format(subj))
-    print mc.gold
-    print mc.time_splits
-    print mc.conner.tags
+    #print mc.gold
+    print mc._make_time_splits()
+    #print mc.conner.tags

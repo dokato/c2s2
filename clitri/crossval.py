@@ -8,6 +8,8 @@ from utils import *
 from classifiers import *
 from discovery import *
 
+from helmholtz import HelmholtzClassifier
+
 from sklearn.svm import LinearSVC, SVC
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -17,8 +19,9 @@ from sklearn.model_selection import ShuffleSplit
 import numpy as no 
 
 ### Params:
-clf = LinearSVC()
+clf = XGBClassifier()#HelmholtzClassifier(TAGS_LABELS)
 N_cross = 10
+model_building = True
 ###
 
 def load_cross_dataset(subj_names):
@@ -48,10 +51,11 @@ for spl in ss.split(all_paths):
     mc_train = load_cross_dataset(train_paths)
     texts, annots = get_training_from_mc(mc_train)
 
-    vectorizer = DEFAULT_VECTORIZER 
-    for tag in TAGS_LABELS:
-        print('Building: ' + tag)
-        build_model(clf, texts, annots, vectorizer, tag, 'models/model')
+    vectorizer = DEFAULT_VECTORIZER
+    if model_building:
+        for tag in TAGS_LABELS:
+            print('Building: ' + tag)
+            build_model(clf, texts, annots, vectorizer, tag, 'models/model')
 
     mc_test = load_cross_dataset(test_paths)
 
@@ -81,14 +85,15 @@ for spl in ss.split(all_paths):
     full_scores['Overall'].append(float(output[idx+8:idx+15].strip()))
     for tg in TAGS_LABELS:
         idx = output.index(tg[0] + tg[1:].lower())
-        full_scores[tg].append(float(output[idx+8:idx+15].strip()))
+        patt = re.findall('[0-9].[0-9][0-9][0-9][0-9]', output[idx:idx+30])[0]
+        full_scores[tg].append(float(patt))
 
     shutil.rmtree(out_fold_name)
     shutil.rmtree(trn_fold_name)
 
-print('++++++++++++++++++++++++')
+print('+' * 12)
 
 for tg in TAGS_LABELS:
-    print('{}: {:.3f} (+- {:.3f})'.format(tg, np.mean(full_scores[tg]), np.std(full_scores[tg])/N_cross**0.5))
+    print('{:>20}: {:<5.3f} (+- {:.3f})'.format(tg, np.mean(full_scores[tg]), np.std(full_scores[tg])/N_cross**0.5))
 
-print('Final score: {:.3f} (+- {:.3f})'.format(np.mean(full_scores['Overall']), np.std(full_scores['Overall'])/N_cross**0.5))
+print('Final score: {:<5.3f} (+- {:.3f})'.format(np.mean(full_scores['Overall']), np.std(full_scores['Overall'])/N_cross**0.5))

@@ -303,4 +303,4 @@ class HelmholtzClassifier(object):
         if self.meanfulldc is None:
             raise Exception("You need to train me first!")
         helm_score = self.meaningfulness(text, self.meanfulldc[tag_name])
-        return self.classifiers[tag_name].predict(helm_score)[0]
+        return self.classifiers[tag_name].predict(helm_score)

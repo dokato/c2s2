@@ -22,6 +22,10 @@ class Discover(object):
             self.clf = None
         self.vectorizer = load_pickle(DEFAULT_VECTORIZER)
 
+    def _get_text(self, mc):
+        '''Returns text from medical condition object *mc*'''
+        return mc.text
+
     def predict(self, data = None):
         """
         Predict from list of MedicalCases.
@@ -32,12 +36,12 @@ class Discover(object):
         ii=0
         for mc in data:
             try:
-                flag = self._textual_detection(mc.text)
+                flag = self._textual_detection(_get_text(mc))
             except ValueError:
                 flag = None
             if flag is None:
                 # machine learning voodoo
-                flag = self._model_detection(mc.text)
+                flag = self._model_detection(_get_text(mc))
                 ii += 1
             mc.annots[self.tag] = MET_LABEL if flag else NOTMET_LABEL
         print('done ({})'.format(ii))
@@ -56,11 +60,10 @@ class Discover(object):
             raise ValueError("Model not specified. Check path in discovery.DEFAULT_MODELS")
         if self.clf.__class__.__name__ != 'HelmholtzClassifier':
             vcttxt = self.vectorizer.transform([txt])
-            pred = self.clf.predict(vctpptxt)
-            return True if pred[0] == 1 else False
+            pred = self.clf.predict(vcttxt)
         else:
-            return False
-
+            pred = self.clf.predict(txt, self.tag)
+        return True if pred[0] == 1 else False
 
 class DiscoverAlcohol(Discover):
     """Discover ALCOHOL-ABUSE clinical trial"""
