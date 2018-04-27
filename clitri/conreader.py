@@ -34,4 +34,4 @@ class ConNer(object):
 
 if __name__ == '__main__':
     cn = ConNer('condtaggeddata/101.xml.con')
-    print cn.give_specific_type("problem")
+    print(cn.give_specific_type("problem"))

@@ -1,6 +1,7 @@
 import re
 import os
 import sklearn
+from datetime import timedelta
 
 from medicalcase import MedicalCase, load_whole_dataset
 from utils import *
@@ -21,10 +22,21 @@ class Discover(object):
         else:
             self.clf = None
         self.vectorizer = load_pickle(DEFAULT_VECTORIZER)
+        self.time_limit = None # in days
 
     def _get_text(self, mc):
-        '''Returns text from medical condition object *mc*'''
-        return mc.text
+        '''
+        Returns text from medical condition object *mc*.
+        The function check time constraints on medical data if provided.
+        '''
+        if self.time_limit is None or mc.time_splits is None or len(mc.time_splits) == 1:
+            return mc.text
+        now_ = mc.time_splits[-1][0]
+        selected_text = ""
+        for ts, ttext in mc.time_splits:
+            if not now_ - ts > timedelta(days=self.time_limit):
+                selected_text += ttext + ' '
+        return selected_text
 
     def predict(self, data = None):
         """
@@ -36,12 +48,12 @@ class Discover(object):
         ii=0
         for mc in data:
             try:
-                flag = self._textual_detection(_get_text(mc))
+                flag = self._textual_detection(self._get_text(mc))
             except ValueError:
                 flag = None
             if flag is None:
                 # machine learning voodoo
-                flag = self._model_detection(_get_text(mc))
+                flag = self._model_detection(self._get_text(mc))
                 ii += 1
             mc.annots[self.tag] = MET_LABEL if flag else NOTMET_LABEL
         print('done ({})'.format(ii))
@@ -231,6 +243,7 @@ class DiscoverDietSupp(Discover):
         """
         super(DiscoverDietSupp, self).__init__(data)
         self.tag = 'DIETSUPP-2MOS'
+        self.time_limit = 2*30 # in days
 
 class DiscoverEnglish(Discover):
     """Discover for ENGLISH clinical trial"""
@@ -252,6 +265,7 @@ class DiscoverKeto(Discover):
         """
         super(DiscoverKeto, self).__init__(data)
         self.tag = 'KETO-1YR'
+        self.time_limit = 366 # in days
 
 class DiscoverDiabetes(Discover):
     """Discover for MAJOR-DIABETES clinical trial"""
@@ -282,6 +296,7 @@ class DiscoverMi6Mos(Discover):
         """
         super(DiscoverMi6Mos, self).__init__(data)
         self.tag = 'MI-6MOS'
+        self.time_limit = 6*30 # in days
 
 class DiscoverDrug(Discover):
     """Discover for DRUG-ABUSE clinical trial"""
@@ -312,7 +327,7 @@ TAG_TO_CLASSES = {
 
 if __name__ == '__main__':
     mcdata = load_whole_dataset()
-    #dh = DiscoverCreatinine(mcdata)
+    #dh = DiscoverMi6Mos(mcdata)
     #dh.predict()
     for tag in TAGS_LABELS:
         disc = TAG_TO_CLASSES[tag](mcdata)

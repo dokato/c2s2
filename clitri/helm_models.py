@@ -32,7 +32,7 @@ doc_dc = make_count_dict(flat_list(full_doc))
 Ldoc = len(flat_list(full_doc))
 meanfulldc = dict()
 for tg in tags:
-    print tg
+    #print tg
     cont_dc = make_count_dict(longcont[tg])
     vec_meaning = get_meaning_for_tokens(cont_dc, doc_dc, int(Ldoc*1./len(cont_dc)))
     meanfulldc[tg] = dict([(k,v) for k,v in vec_meaning if v > meaning_threshold])

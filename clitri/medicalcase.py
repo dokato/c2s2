@@ -19,11 +19,7 @@ class MedicalCase(object):
         self.text = default_text_preprocessing(self.clean_text)
         self.gold = get_annotations(annotation_path) if annotation_path else None
         self.annots = copy.copy(EMPTY_ANNOT)
-        self.time_splits = []
-        try:
-            self._make_time_splits()
-        except Exception:
-            raise Warning('Problem with splits')
+        self.time_splits = self._make_time_splits()
         self.conner = None
         if conner:
             self.conner = self._read_conner(conner)
@@ -32,7 +28,7 @@ class MedicalCase(object):
         """Build output tags and save them to XML format if *save* is True"""
         root = build_tags(self.annots)
         if not noprint:
-            print ET.tostring(root, 'utf-8')
+            print(ET.tostring(root, 'utf-8'))
         if save:
             strdata = ET.tostring(root, 'utf-8')
             with open(os.path.join(save_folder, self.name + '.xml'), "w") as f:
@@ -57,29 +53,35 @@ class MedicalCase(object):
         """
         Splits description text into time steps based on "record date" pattern.
         """
-        self.time_splits = []
+        time_splits = []
         rex = re.compile("record date[ \n:].")
         rex_date = re.compile("[0-9][0-9][0-9][0-9][ ]+[0-9][0-9][ ]+[0-9][0-9]")
         cuts = [(m.start(), m.end()) for m in rex.finditer(self.clean_text)]
         if len(cuts) > 1:
             for i in range(len(cuts)-1):
                 cutting = self.clean_text[cuts[i][0]:cuts[i][0]+40].replace('\n', ' ')
-                pattdate =  rex_date.findall(cutting)[0]
+                try:
+                    pattdate =  rex_date.findall(cutting)[0]
+                except IndexError:
+                    return None
                 date = datetime.strptime(pattdate, '%Y %m %d')
                 txt = self.text[cuts[i][1]:cuts[i+1][0]]
-                self.time_splits.append((date, default_text_preprocessing(txt)))
+                time_splits.append((date, default_text_preprocessing(txt)))
             cutting = self.clean_text[cuts[-1][0]:cuts[-1][0]+40].replace('\n', ' ')
-            pattdate =  rex_date.findall(cutting)[0]
-            date = datetime.strptime(pattdate, '%Y %m %d')
-            txt = self.text[cuts[-1][1]:]
-            self.time_splits.append((date, default_text_preprocessing(txt)))
+            try:
+                pattdate =  rex_date.findall(cutting)[0]
+                date = datetime.strptime(pattdate, '%Y %m %d')
+                txt = self.text[cuts[-1][1]:]
+                time_splits.append((date, default_text_preprocessing(txt)))
+            except IndexError:
+                return None
         else:
             cutting = self.clean_text[cuts[0][0]:cuts[0][0]+40].replace('\n', ' ')
             pattdate =  rex_date.findall(cutting)[0]
             date = datetime.strptime(pattdate, '%Y %m %d')
             txt = self.text[cuts[-1][1]:]            
-            self.time_splits.append((date, default_text_preprocessing(txt)))
-        print self.time_splits
+            time_splits.append((date, default_text_preprocessing(txt)))
+        return time_splits
 
     def _read_conner(self, path):
         """Returns ConNer object"""
@@ -111,5 +113,4 @@ if __name__ == '__main__':
         annotation_path = 'train/{}.xml'.format(subj),
         conner = 'condtaggeddata/{}.xml.con'.format(subj))
     #print mc.gold
-    print mc._make_time_splits()
     #print mc.conner.tags
