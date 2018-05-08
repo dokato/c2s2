@@ -19,7 +19,7 @@ from sklearn.model_selection import ShuffleSplit
 import numpy as no 
 
 ### Params:
-clf = XGBClassifier()#HelmholtzClassifier(TAGS_LABELS)
+clf = XGBClassifier(eta = 0.02, max_depth = 10)#HelmholtzClassifier(TAGS_LABELS)
 N_cross = 10
 model_building = True
 ###
@@ -55,6 +55,9 @@ for spl in ss.split(all_paths):
     if model_building:
         for tag in TAGS_LABELS:
             print('Building: ' + tag)
+            if tag in TIME_LIMITED_TAGS.keys():
+                texts_timed, _ = get_training_from_mc(mc_train, TIME_LIMITED_TAGS[tag])
+                build_model(clf, texts_timed, annots, vectorizer, tag, 'models/model')
             build_model(clf, texts, annots, vectorizer, tag, 'models/model')
 
     mc_test = load_cross_dataset(test_paths)

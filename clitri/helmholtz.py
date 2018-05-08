@@ -304,3 +304,37 @@ class HelmholtzClassifier(object):
             raise Exception("You need to train me first!")
         helm_score = self.meaningfulness(text, self.meanfulldc[tag_name])
         return self.classifiers[tag_name].predict(helm_score)
+
+class HelmholtzVectorizer(object):
+    """
+    Helmholtz principle based vectorizer.
+    """
+    def __init__(self, long_text = None):
+        self.bigdict = None
+        self.Ldoc = None
+        #self.fit(long_text)
+        self.Noexist = -10
+        self.names = None
+
+    def fit(self, long_text):
+        if type(long_text) == list:
+            spltxt = ''.join(long_text).split(' ')
+        else:
+            spltxt = long_text.split(' ')
+        self.bigdict = make_count_dict(spltxt)
+        self.Ldoc = len(spltxt)
+        self.names = self.bigdict.keys()
+
+    def transform(self, txts):
+        if not self.bigdict:
+            raise ValueError('Do fit first.')
+        if type(txts) == str:
+            txts = [txts]
+        transvec = []
+        for tt in txts:
+            cont_dc = make_count_dict(tt)
+            vec_meaning = get_meaning_for_tokens(cont_dc, self.bigdict, int(self.Ldoc*1./len(cont_dc)))
+            vec_meaning = dict(vec_meaning)
+            orderedvec = [vec_meaning.get(w, self.Noexist) for w in self.names]
+            transvec.append(orderedvec)
+        return np.array(transvec)

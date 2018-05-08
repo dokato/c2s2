@@ -1,6 +1,6 @@
 import re, os, copy
 import xml.etree.cElementTree as ET
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from utils import *
 from conreader import ConNer
@@ -34,6 +34,20 @@ class MedicalCase(object):
             with open(os.path.join(save_folder, self.name + '.xml'), "w") as f:
                 f.write(strdata)
 
+    def get_timed_text(self, time_limit):
+        """
+        Args:
+          *time_limit* (int) - in days
+        """
+        if time_limit is None or self.time_splits is None or len(self.time_splits) == 1:
+            return self.text
+        now_ = self.time_splits[-1][0]
+        selected_text = ""
+        for ts, ttext in self.time_splits:
+            if not now_ - ts > timedelta(days = time_limit):
+                selected_text += ttext + ' '
+        return selected_text
+
     def meaningfulness(self, score_dict, splitter = ' '):
         '''
         Returns meaningfulness.
@@ -44,7 +58,7 @@ class MedicalCase(object):
           numeric value
         '''
         val = 0
-        for tok in self.text.split(splitter):
+        for tok in self.clean_text.split(splitter):
             if tok in score_dict:
                 val += score_dict[tok]
         return val
@@ -54,8 +68,9 @@ class MedicalCase(object):
         Splits description text into time steps based on "record date" pattern.
         """
         time_splits = []
-        rex = re.compile("record date[ \n:].")
-        rex_date = re.compile("[0-9][0-9][0-9][0-9][ ]+[0-9][0-9][ ]+[0-9][0-9]")
+        rex = re.compile("this is record date[ \n:].")
+        rex_date = re.compile("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]")
+        date_format = '%Y%m%d'
         cuts = [(m.start(), m.end()) for m in rex.finditer(self.clean_text)]
         if len(cuts) > 1:
             for i in range(len(cuts)-1):
@@ -64,22 +79,22 @@ class MedicalCase(object):
                     pattdate =  rex_date.findall(cutting)[0]
                 except IndexError:
                     return None
-                date = datetime.strptime(pattdate, '%Y %m %d')
-                txt = self.text[cuts[i][1]:cuts[i+1][0]]
+                date = datetime.strptime(pattdate, date_format)
+                txt = self.clean_text[cuts[i][1]:cuts[i+1][0]]
                 time_splits.append((date, default_text_preprocessing(txt)))
             cutting = self.clean_text[cuts[-1][0]:cuts[-1][0]+40].replace('\n', ' ')
             try:
                 pattdate =  rex_date.findall(cutting)[0]
-                date = datetime.strptime(pattdate, '%Y %m %d')
-                txt = self.text[cuts[-1][1]:]
+                date = datetime.strptime(pattdate, date_format)
+                txt = self.clean_text[cuts[-1][1]:]
                 time_splits.append((date, default_text_preprocessing(txt)))
             except IndexError:
                 return None
         else:
             cutting = self.clean_text[cuts[0][0]:cuts[0][0]+40].replace('\n', ' ')
             pattdate =  rex_date.findall(cutting)[0]
-            date = datetime.strptime(pattdate, '%Y %m %d')
-            txt = self.text[cuts[-1][1]:]            
+            date = datetime.strptime(pattdate, date_format)
+            txt = self.clean_text[cuts[-1][1]:]            
             time_splits.append((date, default_text_preprocessing(txt)))
         return time_splits
 

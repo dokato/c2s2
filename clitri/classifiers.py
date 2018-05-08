@@ -9,12 +9,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 from medicalcase import MedicalCase, load_whole_dataset
 from utils import *
+from helmholtz import HelmholtzVectorizer
+from xgboost import XGBClassifier
 
 def build_tfidf(texts, file_to_save = None):
     """
     Create TfIdf and pickle it.
     """
-    vectorizer = TfidfVectorizer(max_df=0.5, min_df=1, stop_words='english', use_idf=True)
+    vectorizer = HelmholtzVectorizer()#TfidfVectorizer(max_df=0.5, min_df=1, stop_words='english', use_idf=True)
     vectorizer.fit(texts)
     if file_to_save:
         now = str(datetime.datetime.now())[:-7].replace(':','_').replace(' ','_').replace('-','_')
@@ -46,7 +48,6 @@ def build_model(clf, trdata, annotations, tfidf_name, label, file_to_save = None
 if __name__ == '__main__':
     mcdata = load_whole_dataset()
     texts, annots = get_training_from_mc(mcdata)
-
     parser = argparse.ArgumentParser(description="Builds clf model. Will be stored in 'models' folder.")
     parser.add_argument("-t", "--tfidf", dest="tfidf", default=None, type=str,
                         help="""
@@ -61,7 +62,7 @@ if __name__ == '__main__':
                          help="Tag to train. If not given, all models will be created.")
     args = parser.parse_args()
     if not args.tfidf is None:
-        build_tfidf(texts_cl, 'models/' + args.tfidf)
+        build_tfidf(texts, 'models/' + args.tfidf)
     else:
         if args.classifier != 'HelmholtzClassifier':
             clf = eval(args.classifier + "()")
@@ -69,9 +70,15 @@ if __name__ == '__main__':
             clf = eval(args.classifier + "(TAGS_LABELS)")
         vectorizer = 'models/' + args.vectorizer if args.vectorizer else DEFAULT_VECTORIZER
         if args.tag:
+            if tag in TIME_LIMITED_TAGS.keys():
+                    texts_timed, _ = get_training_from_mc(mcdata, TIME_LIMITED_TAGS[tag])
+                    build_model(clf, texts_timed, annots, vectorizer, tag, 'models/' + args.name)                
             build_model(clf, texts, annots, vectorizer, args.tag, 'models/' + args.name)
         else:
             for tag in TAGS_LABELS:
                 print('Building: ' + tag)
+                if tag in TIME_LIMITED_TAGS.keys():
+                    texts_timed, _ = get_training_from_mc(mcdata, TIME_LIMITED_TAGS[tag])
+                    build_model(clf, texts_timed, annots, vectorizer, tag, 'models/' + args.name)
                 build_model(clf, texts, annots, vectorizer, tag, 'models/' + args.name)
         print('.')
