@@ -329,18 +329,23 @@ def evaluate(f1, f2, track, files, mode='strict'):
 
     if track == 1:
         print('{:*^28}'.format(' CRITERIA '))
-        print('{:20}  {:6}'.format('', 'Acc.'))
+        print('{:20}  {:6}  {:6}  {:6}'.format('', 'Prec.', 'Rec.', 'F1'))
         for tag in evaluator_s.tags:
             evaluator_tag_s = MultipleEvaluator(f1, f2, track, files, tag)
-            print('{:>20}  {:<5.4f}'.format(
+            print('{:>20}  {:<5.4f}  {:<5.4f}  {:<5.4f}'.format(
                 tag.capitalize(),
-                evaluator_tag_s.scores['tags']['micro']['precision']))
+                evaluator_tag_s.scores['tags']['micro']['precision'],
+                evaluator_tag_s.scores['tags']['micro']['recall'],
+                evaluator_tag_s.scores['tags']['micro']['f1']))
         print('{:>20}  {:-^6}'.format('', ''))
-        print('{:>20}  {:<5.4f}'.format(
+        print('{:>20}  {:<5.4f}  {:<5.4f}  {:<5.4f}'.format(
             'Overall',
-            evaluator_s.scores['tags']['micro']['precision']))
+            evaluator_s.scores['tags']['micro']['precision'],
+            evaluator_s.scores['tags']['micro']['recall'],
+            evaluator_s.scores['tags']['micro']['f1']))
         print()
         print('{:^28}'.format('  {} files found  '.format(len(files))))
+
     else:
         evaluator_l = MultipleEvaluator(f1, f2, track, files, mode='lenient')
         print('{:*^70}'.format(' NAMED ENTITIES '))
@@ -413,7 +418,6 @@ def evaluate(f1, f2, track, files, mode='strict'):
         print()
         print('{:20}{:^48}'.format('', '  {} files found  '.format(len(files))))
 
-
 def main(f1, f2, track):
     """Where the magic begins."""
     # Select the .ann files existing in both folders.
@@ -434,12 +438,15 @@ def main(f1, f2, track):
         print('Files skipped in {}:'.format(os.path.basename(f2)))
         for f in sorted(list(files2 - files)):
             print(' - {}'.format(f))
-    evaluate(f1, f2, track, files)
+    if track == 3:
+        evaluate_full(f1, f2, 1, files)
+    else:
+        evaluate(f1, f2, track, files)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='n2c2: Evaluation script')
-    parser.add_argument('-t', '--track', choices={'1', '2'}, help='Track number')
+    parser.add_argument('-t', '--track', choices={'1', '2', }, help='Track number')
     parser.add_argument('folder1', help='First data folder path')
     parser.add_argument('folder2', help='Second data folder path')
     args = parser.parse_args()

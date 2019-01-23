@@ -24,12 +24,19 @@ DEFAULT_MODELS = {
     'DiscoverMi6Mos' : 'models/model_MI-6MOS.pkl'
 }
 
-DEFAULT_VECTORIZER = 'models/tfidf_2018_04_24_16_31_17.pkl'#'models/helm_2018_05_01_12_22_28.pkl'
+# 'models/tfidf_2018_04_24_16_31_17.pkl'
+# 'models/helm_2018_05_01_12_22_28.pkl'
+# 'models/tfonly_2018_05_08_15_43_44.pkl'
+# 'models/count2g_2018_05_09_11_40_43.pkl'
+DEFAULT_VECTORIZER = 'models/count2g_2018_05_09_11_40_43.pkl'#'models/count_2018_05_08_15_32_32.pkl'
+
+SUPPORTING_VECTORIZER = 'models/tfidf_2018_04_24_16_31_17.pkl'
 
 CONFIG_PATH = {
     'preprocessed': 'preproc/02_main/{}.xml.txt',
     'annotations': 'train/{}.xml',
-    'conner': 'condtaggeddata/{}.xml.con'
+    'conner': 'condtaggeddata/{}.xml.con',
+    'test_preprocessed': 'preproctst/02_main/{}.xml.txt',
 }
 ######################################
 
@@ -108,6 +115,39 @@ def get_tag_encoding(array, tag):
       (np.array) column vector
     """
     return array[:, TAGS_LABELS.index(tag)]
+
+def balancing(labels, method = 'under'):
+    """
+    Balance classes to equal number of examples.
+
+    Args:
+      labels (np.array) - column vector with 1 or 0 determining belonging to one class or another
+      method (str) - method of balancing: 'under' undersampling majority class,
+                     'up' upsampling minority class
+    Returns:
+      (np.array) column vector
+    """
+    one_class = np.where(labels == 1)[0]
+    zer_class = np.where(labels == 0)[0]
+    if len(zer_class) > len(one_class):
+        majority = zer_class
+        minority = one_class
+    else:
+        majority = one_class
+        minority = zer_class
+    if method == 'under':
+        inxs = np.arange(len(minority))
+        np.random.shuffle(inxs)
+        first_class = minority
+        second_class = majority[inxs]
+    elif method == 'up':
+        inxs = np.random.randint(len(minority), size=len(majority))
+        first_class = majority
+        second_class = minority[inxs]
+    else:
+        raise Error('Not implemented error')
+    return first_class, second_class
+
 
 def save_pickle(obj, name):
     """

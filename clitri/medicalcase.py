@@ -120,6 +120,18 @@ def load_whole_dataset(path = 'train'):
         mcdata.append(mc)
     return mcdata
 
+def load_test_dataset(path = 'test_notags'):
+    """
+    Loads whole test dataset of patients data description.
+    Paths to specific files are defined in CONFIG_PATH constant.
+    """
+    mcdata = []
+    for subj in [x[:-4] for x in os.listdir(path)]:
+        mc = MedicalCase(subj,
+            description_path = CONFIG_PATH['test_preprocessed'].format(subj))
+        mcdata.append(mc)
+    return mcdata
+
 if __name__ == '__main__':
     import sys
     subj = sys.argv[1]

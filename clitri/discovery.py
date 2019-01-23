@@ -3,7 +3,7 @@ import os
 import sklearn
 from datetime import timedelta
 
-from medicalcase import MedicalCase, load_whole_dataset
+from medicalcase import MedicalCase, load_whole_dataset, load_test_dataset
 from utils import *
 
 class Discover(object):
@@ -150,7 +150,6 @@ class DiscoverHBA1C(Discover):
         
         idx = txt.index(expr)
         fragment = txt[idx + margin_left:idx + margin_right]
-        print fragment
         return flag
 
 class DiscoverCreatinine(Discover):
@@ -165,7 +164,7 @@ class DiscoverCreatinine(Discover):
         self.creatinine_high = 1.5
         self.tag = 'CREATININE'
 
-    def _textual_detection(self, txt, margin_left = -20, margin_right = 50):
+    def __first_version_txt_detection(elf, txt, margin_left = -20, margin_right = 50):
         """
         Returns true if condition met, False if not met, None if not sure.
         """
@@ -202,6 +201,15 @@ class DiscoverKeto(Discover):
         """
         super(DiscoverKeto, self).__init__(data)
         self.tag = 'KETO-1YR'
+
+    def _textual_detection(self, txt):
+        """
+        Detect based on string analysis.
+        """
+        regket = re.compile('KETACD')
+        if len(regket.findall(txt)) > 2:
+            return True
+        return False
 
 class DiscoverAbdominal(Discover):
     """Discover for ABDOMINAL clinical trial"""
@@ -255,17 +263,6 @@ class DiscoverEnglish(Discover):
         super(DiscoverEnglish, self).__init__(data)
         self.tag = 'ENGLISH'
 
-
-class DiscoverKeto(Discover):
-    """Discover for KETO-1YR clinical trial"""
-    def __init__(self, data):
-        """
-        Args:
-          data (list <MedicalCase>)
-        """
-        super(DiscoverKeto, self).__init__(data)
-        self.tag = 'KETO-1YR'
-        self.time_limit = 366 # in days
 
 class DiscoverDiabetes(Discover):
     """Discover for MAJOR-DIABETES clinical trial"""
@@ -326,12 +323,10 @@ TAG_TO_CLASSES = {
 }
 
 if __name__ == '__main__':
-    mcdata = load_whole_dataset()
-    #dh = DiscoverMi6Mos(mcdata)
-    #dh.predict()
+    mcdata = load_test_dataset()
     for tag in TAGS_LABELS:
         disc = TAG_TO_CLASSES[tag](mcdata)
         disc.predict()
     for mc in mcdata:
         print mc.name, mc.annots
-        mc.build_tags(noprint=True, save=True)
+        mc.build_tags(noprint=True, save=True, save_folder = 'testoutput/')

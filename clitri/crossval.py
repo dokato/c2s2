@@ -15,11 +15,13 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
+from catboost import CatBoostClassifier
 from sklearn.model_selection import ShuffleSplit
-import numpy as no 
+import numpy as np
 
 ### Params:
 clf = XGBClassifier(eta = 0.02, max_depth = 10)#HelmholtzClassifier(TAGS_LABELS)
+#clf = RandomForestClassifier()
 N_cross = 10
 model_building = True
 ###
@@ -54,6 +56,8 @@ for spl in ss.split(all_paths):
     vectorizer = DEFAULT_VECTORIZER
     if model_building:
         for tag in TAGS_LABELS:
+            if tag == 'KETO-1YR':
+                continue
             print('Building: ' + tag)
             if tag in TIME_LIMITED_TAGS.keys():
                 texts_timed, _ = get_training_from_mc(mc_train, TIME_LIMITED_TAGS[tag])
