@@ -98,8 +98,9 @@ class DiscoverAlcohol(Discover):
         if txt.count('ALCABS') >= threshold:
             return True
         if txt.count('ALCOHOL') > 0:
+            if txt.count('ALCOHOL') > 3: return True
             fragment = txt[txt.index('ALCOHOL')-50:txt.index('ALCOHOL')+50]
-            for keystop in ['rare', 'occasional', 'none']:
+            for keystop in ['rare', 'occasional', 'none', 'quit']:
                 if keystop in fragment:
                     return False
             return True
@@ -266,11 +267,13 @@ class DiscoverDrug(Discover):
         super(DiscoverDrug, self).__init__(data)
         self.tag = 'DRUG-ABUSE'
 
-    def _textual_detection(self, txt, threshold = 2):
+    def _textual_detection(self, txt, threshold = 1):
         """
         Detect based on string analysis.
         Returns true if condition met, False if not met, None if not sure.
         """
+        if txt.count('drug abuse'):
+            return True
         if txt.count('JUNKIE') >= threshold:
             return True
         return False

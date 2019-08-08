@@ -3,7 +3,10 @@ import xml.etree.cElementTree as ET
 from datetime import datetime, timedelta
 
 from utils import *
-from conreader import ConNer
+try:
+    from conreader import ConNer
+except ImportError:
+    pass
 
 class MedicalCase(object):
     def __init__(self, name, description_path, annotation_path = None, conner = False):

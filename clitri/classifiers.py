@@ -117,7 +117,7 @@ if __name__ == '__main__':
                         build tf idf: specify name to save it. Date will be added.
                         To overwrite name it simply tfidf.""")
     #parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.05, max_depth=5, n_estimators=70)', type = str, help="classifier to choose")
-    parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.08, max_depth=4, n_estimators=70)', type = str, help="classifier to choose")
+    parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.08, max_depth=5, n_estimators=70)', type = str, help="classifier to choose")
     parser.add_argument("-n", "--name", dest="name", type = str, default='model',
                          help="method of source reconstruction")
     parser.add_argument("-v", "--vectorizer", dest="vectorizer", type = str, default = None,

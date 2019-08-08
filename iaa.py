@@ -211,6 +211,7 @@ class Evaluator(object):
         """Compute Recall score."""
         assert target in ('tags', 'relations')
         scores = self.scores.get(target)
+        
         try:
             return scores['tp'] *1. / (scores['tp'] + scores['fn'])
         except ZeroDivisionError:
@@ -251,10 +252,9 @@ class SingleEvaluator(Evaluator):
         else:
             gol = [t for t in doc1.tags.values()]
             sys = [t for t in doc2.tags.values()]
-        self.scores['tags']['tp'] = len({s.tid for s in sys for g in gol if g.equals(s, mode)})
-        self.scores['tags']['fp'] = len({s.tid for s in sys}) - self.scores['tags']['tp']
-        self.scores['tags']['fn'] = len({g.tid for g in gol}) - len({s.tid for s in sys})
-
+        self.scores['tags']['tp'] = [gol[i].value==sys[i].value=='met' for i in range(len(sys))].count(True) # len({s.tid for s in sys for g in gol if g.equals(s, mode)})
+        self.scores['tags']['fp'] = [gol[i].value!=sys[i].value and sys[i].value == 'met' for i in range(len(sys))].count(True) # len({s.tid for s in sys}) - self.scores['tags']['tp']
+        self.scores['tags']['fn'] = [gol[i].value!=sys[i].value and sys[i].value == 'not met' for i in range(len(sys))].count(True) # len({g.tid for g in gol}) - len({s.tid for s in sys})
         if track == 2:
             if key:
                 gol = [r for r in doc1.relations.values() if r.rtype == key]

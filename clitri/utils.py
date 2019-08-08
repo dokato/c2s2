@@ -92,7 +92,7 @@ def __simple_text_cleaning(text):
     a = a.translate(None, string.punctuation)
     a = re.sub( '\s+', ' ', a ).strip()
     a = re.sub(r'[0-9]+', '', a).strip()
-    a = re.sub('record within .+months', '', a)
+    #a = re.sub('record within .+months', '', a)
     a = ' '.join([x.strip() for x in a.split(' ') if len(x) > 1 ])
     return a
 
