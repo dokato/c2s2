@@ -120,15 +120,21 @@ def load_whole_dataset(path = 'train'):
         mcdata.append(mc)
     return mcdata
 
-def load_test_dataset(path = 'test_notags'):
+def load_test_dataset(path = 'test_notags', annotations = ''):
     """
     Loads whole test dataset of patients data description.
     Paths to specific files are defined in CONFIG_PATH constant.
+    *annotantions* - 
     """
     mcdata = []
     for subj in [x[:-4] for x in os.listdir(path)]:
-        mc = MedicalCase(subj,
-            description_path = CONFIG_PATH['test_preprocessed'].format(subj))
+        if len(annotations):
+            mc = MedicalCase(subj,
+                description_path = CONFIG_PATH['test_preprocessed'].format(subj),
+                annotation_path = annotations.format(subj))
+        else:
+            mc = MedicalCase(subj,
+                description_path = CONFIG_PATH['test_preprocessed'].format(subj))
         mcdata.append(mc)
     return mcdata
 

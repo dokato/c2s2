@@ -24,13 +24,9 @@ DEFAULT_MODELS = {
     'DiscoverMi6Mos' : 'models/model_MI-6MOS.pkl'
 }
 
-# 'models/tfidf_2018_04_24_16_31_17.pkl'
-# 'models/helm_2018_05_01_12_22_28.pkl'
-# 'models/tfonly_2018_05_08_15_43_44.pkl'
-# 'models/count2g_2018_05_09_11_40_43.pkl'
-DEFAULT_VECTORIZER = 'models/count2g_2018_05_09_11_40_43.pkl'#'models/count_2018_05_08_15_32_32.pkl'
+#DEFAULT_VECTORIZER = 'models/cvnoxxx_2019_08_07_12_15_10.pkl'
 
-SUPPORTING_VECTORIZER = 'models/tfidf_2018_04_24_16_31_17.pkl'
+DEFAULT_VECTORIZER = 'models/count12_2019_01_23_14_28_32.pkl'
 
 CONFIG_PATH = {
     'preprocessed': 'preproc/02_main/{}.xml.txt',

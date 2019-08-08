@@ -1,5 +1,5 @@
 import re
-import os
+import os, sys
 import sklearn
 from datetime import timedelta
 
@@ -47,6 +47,7 @@ class Discover(object):
             data = self.data
         ii=0
         for mc in data:
+            self.currmc = mc
             try:
                 flag = self._textual_detection(self._get_text(mc))
             except ValueError:
@@ -87,49 +88,22 @@ class DiscoverAlcohol(Discover):
         super(DiscoverAlcohol, self).__init__(data)
         self.tag = 'ALCOHOL-ABUSE'
 
-    def _textual_detection(self, txt, margin_left = -50, margin_right = 50):
+    def _textual_detection(self, txt, threshold = 3):
         """
+        Detect based on string analysis.
         Returns true if condition met, False if not met, None if not sure.
         """
-        flag = None
-        expr = 'alcohol'
-        idx = txt.index(expr)
-        fragment = txt[idx + margin_left:idx + margin_right].replace('\n', ' ')
-        #print fragment
-        regexnoalc = re.compile(' no .*alcohol')
-        if len(regexnoalc.findall(fragment)) > 0:
+        if txt.count('ALCSTP') > 0:
             return False
-        regexnoalc = re.compile('alcohol .* no ')
-        if len(regexnoalc.findall(fragment)) > 0:
-            return False
-        regexnoalc = re.compile('alcohol use (status)*:')
-        if len(regexnoalc.findall(fragment)) > 0:
-            m = next(regexnoalc.finditer(fragment))
-            fg = fragment[m.end():m.end()+20].translate(None, string.punctuation).strip().split()
-            if fg[0] in ['none', 'moderate', 'denies', 'rare']:
-                return False
-        regexnoalc = re.compile('occasional')
-        if len(regexnoalc.findall(fragment)) > 0:
-            return False
-        regexnoalc = re.compile('does not drink')
-        if len(regexnoalc.findall(fragment)) > 0:
-            return False
-        regexnoalc = re.compile('denies alcohol')
-        if len(regexnoalc.findall(fragment)) > 0:
-            return False
-        regexnoalc = re.compile('does not use')
-        if len(regexnoalc.findall(fragment)) > 0:
-            return False
-        regexnoalc = re.compile('does not use')
-        if len(regexnoalc.findall(fragment)) > 0:
-            return False
-
-        regexalc = re.compile('drinks')
-        if len(regexalc.findall(fragment)) > 0:
+        if txt.count('ALCABS') >= threshold:
             return True
-
-        return flag
-
+        if txt.count('ALCOHOL') > 0:
+            fragment = txt[txt.index('ALCOHOL')-50:txt.index('ALCOHOL')+50]
+            for keystop in ['rare', 'occasional', 'none']:
+                if keystop in fragment:
+                    return False
+            return True
+        return False
 
 class DiscoverHBA1C(Discover):
     """Discover for HBA1C clinical trial"""
@@ -141,16 +115,6 @@ class DiscoverHBA1C(Discover):
         super(DiscoverHBA1C, self).__init__(data)
         self.tag = 'HBA1C'
 
-    def _textual_detection(self, txt, margin_left = -20, margin_right = 50):
-        """
-        Returns true if condition met, False if not met, None if not sure.
-        """
-        flag = None
-        expr = 'hba1c'
-        
-        idx = txt.index(expr)
-        fragment = txt[idx + margin_left:idx + margin_right]
-        return flag
 
 class DiscoverCreatinine(Discover):
     """Discover for CREATININE clinical trial"""
@@ -163,34 +127,6 @@ class DiscoverCreatinine(Discover):
         self.creatinine_low = 0.6
         self.creatinine_high = 1.5
         self.tag = 'CREATININE'
-
-    def __first_version_txt_detection(elf, txt, margin_left = -20, margin_right = 50):
-        """
-        Returns true if condition met, False if not met, None if not sure.
-        """
-        flag = None
-        expr = 'creatinine'
-        
-        idx = txt.index(expr)
-        fragment = txt[idx + margin_left:idx + margin_right].replace('\n', ' ')
-        
-        # Trying to detect numerical value
-        regexnum = re.compile("[0-9]+\.?[0-9]*")
-        endvec = [(m.end() - (-margin_left + len(expr)), fragment[m.start():m.end()]) for m in regexnum.finditer(fragment)]
-        if len(endvec) > 0:
-            absends = sorted([(abs(x[0]), e) for e, x in enumerate(endvec)])
-            creatinine_value = float(endvec[absends[0][1]][1])
-            if creatinine_value < 10: # only such a creatinine values make sense in our scale
-                flag = not self.creatinine_low <= creatinine_value <= self.creatinine_high
-        # If numerical value not present we try to detect abnormal creatinine indicators
-        if flag is None:
-            creatine_text_indicators = [('increased', True), ('elevated', True), ('notable', True),
-                                        ('normal', False)]
-            for cti, fl in creatine_text_indicators:
-                if cti in fragment:
-                    flag = fl
-        return flag
-
 
 class DiscoverKeto(Discover):
     """Discover for KETO-1YR clinical trial"""
@@ -295,6 +231,31 @@ class DiscoverMi6Mos(Discover):
         self.tag = 'MI-6MOS'
         self.time_limit = 6*30 # in days
 
+    def _decision_tree_detection(self, txt, threshold = 3):
+        """
+        Detect based on DT model.
+        """
+        model = load_pickle('models/MI6-dt-4.pkl')
+        feats = ['BRPMED',
+            'HRTMED',
+            'HRTTRT',
+            'HRTISC',
+            'HRTANG',
+            'HRTCAD',
+            'ASPFMI',
+            'myocardial infarction']
+        cnts = []
+        import pdb; pdb.set_trace()
+        for ff in feats:
+            cnts.append(txt.count(ff))
+        cnts = np.array(cnts)
+        return bool(model.predict([cnts])[0])
+    
+    def _textual_detection(self, txt, threshold = 4):
+        if txt.count('myocardial infarction') + txt.count('ASPFMI') >= threshold:
+            return True
+        return False
+
 class DiscoverDrug(Discover):
     """Discover for DRUG-ABUSE clinical trial"""
     def __init__(self, data):
@@ -305,6 +266,14 @@ class DiscoverDrug(Discover):
         super(DiscoverDrug, self).__init__(data)
         self.tag = 'DRUG-ABUSE'
 
+    def _textual_detection(self, txt, threshold = 2):
+        """
+        Detect based on string analysis.
+        Returns true if condition met, False if not met, None if not sure.
+        """
+        if txt.count('JUNKIE') >= threshold:
+            return True
+        return False
 
 TAG_TO_CLASSES = {
     'CREATININE' : DiscoverCreatinine,
@@ -323,10 +292,34 @@ TAG_TO_CLASSES = {
 }
 
 if __name__ == '__main__':
-    mcdata = load_test_dataset()
-    for tag in TAGS_LABELS:
-        disc = TAG_TO_CLASSES[tag](mcdata)
+    if len(sys.argv) == 1:
+        mcdata = load_test_dataset()
+        for tag in TAGS_LABELS:
+            disc = TAG_TO_CLASSES[tag](mcdata)
+            disc.predict()
+        for mc in mcdata:
+            mc.build_tags(noprint=True, save=True, save_folder = 'testoutput/')
+    else:
+        mcdata = load_test_dataset(annotations = 'test_gold/{}.xml')
+        #mcdata = load_whole_dataset()
+        tag_to_predict = sys.argv[1]
+        disc = TAG_TO_CLASSES[tag_to_predict](mcdata)
         disc.predict()
-    for mc in mcdata:
-        print mc.name, mc.annots
-        mc.build_tags(noprint=True, save=True, save_folder = 'testoutput/')
+        fp_vec, fn_vec  = [], []
+        tp_vec = []
+        for mc in mcdata:
+            if mc.gold[tag_to_predict] == NOTMET_LABEL and mc.annots[tag_to_predict] == MET_LABEL:
+                fp_vec.append(mc)
+            if mc.gold[tag_to_predict] == MET_LABEL and mc.annots[tag_to_predict] == NOTMET_LABEL:
+                fn_vec.append(mc)
+            if mc.gold[tag_to_predict] == MET_LABEL and mc.annots[tag_to_predict] == MET_LABEL:
+                tp_vec.append(mc)
+        print('FP')
+        print fp_vec
+        print len(fp_vec) * 1./len(mcdata)
+        print('FN')
+        print fn_vec
+        print len(fn_vec) * 1./len(mcdata)
+        print('TP')
+        print tp_vec
+        print len(tp_vec) * 1./len(mcdata)

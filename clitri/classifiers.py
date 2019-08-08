@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from helmholtz import HelmholtzVectorizer
 from xgboost import XGBClassifier
 from sklearn.pipeline import Pipeline
@@ -29,9 +30,11 @@ def build_tfidf(texts, file_to_save = None):
     """
     Create TfIdf and pickle it.
     """
-    #CountVectorizer(ngram_range=(1,2))#HelmholtzVectorizer()#
+    from sklearn.feature_extraction import text
+    stop_words = text.ENGLISH_STOP_WORDS.union(['xxx'])
+    #HelmholtzVectorizer()#
     #TfidfVectorizer(max_df=0.5, min_df=1, stop_words='english', use_idf=False, ngram_range=(1,2))
-    vectorizer = CountVectorizer(ngram_range=(1,2))
+    vectorizer = CountVectorizer(ngram_range=(1,2), stop_words=stop_words)
     vectorizer.fit(texts)
     if file_to_save:
         now = str(datetime.datetime.now())[:-7].replace(':','_').replace(' ','_').replace('-','_')
@@ -50,11 +53,10 @@ def build_model(clf, trdata, annotations, tfidf_name, label, file_to_save = None
         vectorizer = load_pickle(tfidf_name)
         annot_enc = np.array([encode_annotations(ant) for ant in annotations])
         tag_enc = get_tag_encoding(annot_enc, label)
-        frsttag, sectag = balancing(tag_enc, method='up')
+        #frsttag, sectag = balancing(tag_enc, method='under')
         X_tr = vectorizer.transform(trdata)
-        X_tr = X_tr[np.r_[frsttag,sectag]] # balanced training data
-        tag_enc = tag_enc[np.r_[frsttag,sectag]] # balanced labels
-        #print(len(np.r_[frsttag,sectag]))
+        #X_tr = X_tr[np.r_[frsttag,sectag]] # balanced training data
+        #tag_enc = tag_enc[np.r_[frsttag,sectag]] # balanced labels
         if clf.__class__.__name__ != 'HelmholtzClassifier':
             #clf = Pipeline([
             #        ('feature_selection', SelectFromModel(LinearSVC(penalty="l1", dual=False))),
@@ -84,9 +86,6 @@ def build_boruta_voter(trdata, annotations, tfidf_name, label, file_to_save = No
     rf = RandomForestClassifier(n_jobs=-1, class_weight='balanced', max_depth=5)
 
     feat_selector = BorutaPy(rf, n_estimators='auto', verbose=2, random_state=1)
-    #feat_selector.fit(X_tr, tag_enc)
-    #X_filtered = feat_selector.transform(X_tr)
-
     log_clf = LogisticRegression(random_state=42)
     rnd_clf = RandomForestClassifier(random_state=42)
     params = {'n_estimators': 1200, 'max_depth': 3, 'subsample': 0.5,
@@ -96,7 +95,6 @@ def build_boruta_voter(trdata, annotations, tfidf_name, label, file_to_save = No
     voting_clf = VotingClassifier(
         estimators=[('lr', log_clf), ('rf', rnd_clf), ('grd', grd_clf)],
         voting='soft')
-    #voting_clf.fit(X_filtered, tag_enc)
     pipe = Pipeline([
         ('feature_selection', feat_selector),
         ('classify', voting_clf)
@@ -118,7 +116,8 @@ if __name__ == '__main__':
                         help="""
                         build tf idf: specify name to save it. Date will be added.
                         To overwrite name it simply tfidf.""")
-    parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier', type = str, help="classifier to choose")
+    #parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.05, max_depth=5, n_estimators=70)', type = str, help="classifier to choose")
+    parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.08, max_depth=4, n_estimators=70)', type = str, help="classifier to choose")
     parser.add_argument("-n", "--name", dest="name", type = str, default='model',
                          help="method of source reconstruction")
     parser.add_argument("-v", "--vectorizer", dest="vectorizer", type = str, default = None,
@@ -129,6 +128,7 @@ if __name__ == '__main__':
     if not args.tfidf is None:
         build_tfidf(texts, 'models/' + args.tfidf)
     else:
+        print args.classifier
         if args.classifier != 'HelmholtzClassifier':
             code_to_call = args.classifier + "()" if not args.classifier.endswith(')') else args.classifier
             clf = eval(code_to_call)
@@ -137,8 +137,8 @@ if __name__ == '__main__':
         vectorizer = 'models/' + args.vectorizer if args.vectorizer else DEFAULT_VECTORIZER
         if args.tag:
             if args.tag in TIME_LIMITED_TAGS.keys():
-                    texts_timed, _ = get_training_from_mc(mcdata, TIME_LIMITED_TAGS[tag])
-                    build_model(clf, texts_timed, annots, vectorizer, tag, 'models/' + args.name)                
+                    texts_timed, _ = get_training_from_mc(mcdata, TIME_LIMITED_TAGS[args.tag])
+                    build_model(clf, texts_timed, annots, vectorizer, args.tag, 'models/' + args.name)                
             build_model(clf, texts, annots, vectorizer, args.tag, 'models/' + args.name)
         else:
             for tag in TAGS_LABELS:

@@ -11,8 +11,10 @@ from discovery import *
 from helmholtz import HelmholtzClassifier
 
 from sklearn.svm import LinearSVC, SVC
+from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
 from catboost import CatBoostClassifier
@@ -20,8 +22,7 @@ from sklearn.model_selection import ShuffleSplit
 import numpy as np
 
 ### Params:
-clf = XGBClassifier(eta = 0.02, max_depth = 10)#HelmholtzClassifier(TAGS_LABELS)
-#clf = RandomForestClassifier()
+clf = SVC() #XGBClassifier(eta = 0.02, max_depth = 10)#HelmholtzClassifier(TAGS_LABELS)
 N_cross = 10
 model_building = True
 ###
@@ -89,10 +90,11 @@ for spl in ss.split(all_paths):
     print(output)
 
     idx = output.index('Overall')
-    full_scores['Overall'].append(float(output[idx+8:idx+15].strip()))
+    full_scores['Overall'].append(float(output[idx+24:idx+31].strip()))
     for tg in TAGS_LABELS:
         idx = output.index(tg[0] + tg[1:].lower())
-        patt = re.findall('[0-9].[0-9][0-9][0-9][0-9]', output[idx:idx+30])[0]
+        patt = re.findall('[0-9].[0-9][0-9][0-9]*', output[idx:idx+36])
+        patt = patt[-1] # to get F1, 0 would be precision
         full_scores[tg].append(float(patt))
 
     shutil.rmtree(out_fold_name)
