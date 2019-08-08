@@ -1,38 +1,44 @@
-# 2018 N2C2 Shared Tasks Evaluation Scripts
+# Medical Cohort Selection
+Python scripts with a competition solution prepared for "2018 N2C2 Shared Tasks".
 
-This script is distributed as part of the 2018 N2C2 tasks.
-
-If you would like to contribute to this project, pull requests are welcome.
-Please see: [here](https://help.github.com/articles/fork-a-repo) for instructions
-on how to make a fork of this repository, and
-[here](https://help.github.com/articles/using-pull-requests) for instructions
-on making a pull request. Suggestions for improvements, bugs or feature
-requests may be directed to the 2016 CEGS N-GRID evaluation scripts' [issues
-page](https://github.com/filannim/2018_N2C2_evaluation_scripts/issues)
-
-
-
-
-
+Data to train the models is available upon request at https://n2c2.dbmi.hms.harvard.edu/.
 
 ## Setup
 
-This is a Python 3 script and it doesn't require Python external packages.
+You might need the following to run these scripts:
+```
+- python 2.7
+- numpy
+- sklearn
+- xgboost
+- conreader (optional)
+```
+You might also need the following data structure:
+
+```
+clitri/
+test_gold/
+models/
+runsequence.sh
+README.md 
+testoutput/
+output/
+```
+
+where `clitri/` is the folder with scripts for training, testing models; `test_gold/` - is folder with annotation of the test files; `models/` is the folder where you keep trained ML models and vectorisers; `output/` output of training data (eg. for crossvalidation); `testoutput/` output of prediction on test set.
 
 
-
-
-
+**!!!** You may change all paths to the files in `clitri/utils.py`.
 
 ## Running the script
 
 This script is intended to be used via command line:
 ```shell
-$ python track1_eval.py GOLD SYSTEM
+$ ./runsequence.sh
 ```
 
-It produces performance scores for Track 1 (de-identification).
-SYSTEM and GOLD must be directories.
+It performs model trainign with `clitri/classifiers.py` script, model prediction with `clitri/discovry.py` and evaluation with 
+`track1_eval.py`.
 
 ## Output for Track 1: Cohort Selection for Clinical Trials
 
@@ -74,6 +80,8 @@ A few notes to explain this output:
 
 ### Criterion
 
+In this study we tried to predict based on textual hisotry of patients if they meet or not the following medical criteria:
+
 - Abdominal
 - Advanced-cad
 - Alcohol-abuse
@@ -87,3 +95,4 @@ A few notes to explain this output:
 - Major-diabetes
 - Makes-decisions
 - Mi-6mos
+
