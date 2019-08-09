@@ -30,7 +30,11 @@ where `clitri/` is the folder with scripts for training, testing models; `test_g
 
 **!!!** You may change all paths to the files in `clitri/utils.py`.
 
-## Running the script
+## Running the preprocessing (feature extraction)
+
+TODO
+
+## Running the classification script
 
 This script is intended to be used via command line:
 ```shell
@@ -42,45 +46,35 @@ It performs model trainign with `clitri/classifiers.py` script, model prediction
 
 ## Output for Track 1: Cohort Selection for Clinical Trials
 
-To compare your system output, run the following command on directories:
-```shell
-$ python track1_eval.py {gold}/ {system}/
-```
-(replace the folder names in {}s with the names of your actual folders)
-
-Running it will produce output that looks like this:
+Our best score:
 
 ```
-******************************************* TRACK 1 ********************************************
                       ------------ met -------------    ------ not met -------    -- overall ---
-                      Prec.   Rec.    Speci.  F(b=1)    Prec.   Rec.    F(b=1)    F(b=1)  AUC
-           Abdominal  0.6167  0.6916  0.7459  0.6520    0.8036  0.7459  0.7736    0.7128  0.7187
-        Advanced-cad  0.8235  0.7412  0.7712  0.7802    0.6741  0.7712  0.7194    0.7498  0.7562
-       Alcohol-abuse  0.0946  0.7000  0.7590  0.1667    0.9860  0.7590  0.8577    0.5122  0.7295
-          Asp-for-mi  0.9235  0.7870  0.7414  0.8498    0.4674  0.7414  0.5733    0.7115  0.7642
-          Creatinine  0.6159  0.8019  0.7088  0.6967    0.8600  0.7088  0.7771    0.7369  0.7553
-       Dietsupp-2mos  0.7417  0.7517  0.7194  0.7467    0.7299  0.7194  0.7246    0.7357  0.7356
-          Drug-abuse  0.1264  0.7333  0.7216  0.2157    0.9801  0.7216  0.8312    0.5235  0.7275
-             English  0.9750  0.7358  0.7826  0.8387    0.2045  0.7826  0.3243    0.5815  0.7592
-               Hba1c  0.6818  0.7353  0.8118  0.7075    0.8483  0.8118  0.8297    0.7686  0.7736
-            Keto-1yr  0.0149  1.0000  0.7700  0.0294    1.0000  0.7700  0.8701    0.4497  0.8850
-      Major-diabetes  0.7222  0.7500  0.6591  0.7358    0.6905  0.6591  0.6744    0.7051  0.7045
-     Makes-decisions  0.9906  0.7617  0.8182  0.8612    0.1200  0.8182  0.2093    0.5353  0.7900
-             Mi-6mos  0.2840  0.8846  0.7786  0.4299    0.9855  0.7786  0.8699    0.6499  0.8316
+                      Prec.   Rec.    Speci.  F(b=1)    Prec.   Rec.    F(b=1)    F(b=1)  AUC   
+           Abdominal  0.6486  0.8000  0.7679  0.7164    0.8776  0.7679  0.8190    0.7677  0.7839
+        Advanced-cad  0.8431  0.9556  0.8049  0.8958    0.9429  0.8049  0.8684    0.8821  0.8802
+       Alcohol-abuse  0.1667  0.6667  0.8795  0.2667    0.9865  0.8795  0.9299    0.5983  0.7731
+          Asp-for-mi  0.8571  0.9706  0.3889  0.9103    0.7778  0.3889  0.5185    0.7144  0.6797
+          Creatinine  0.8000  0.8333  0.9194  0.8163    0.9344  0.9194  0.9268    0.8716  0.8763
+       Dietsupp-2mos  0.7885  0.9318  0.7381  0.8542    0.9118  0.7381  0.8158    0.8350  0.8350
+          Drug-abuse  0.4000  0.6667  0.9639  0.5000    0.9877  0.9639  0.9756    0.7378  0.8153
+             English  0.9241  1.0000  0.5385  0.9605    1.0000  0.5385  0.7000    0.8303  0.7692
+               Hba1c  1.0000  0.8000  1.0000  0.8889    0.8793  1.0000  0.9358    0.9123  0.9000
+            Keto-1yr  0.0000  0.0000  1.0000  0.0000    1.0000  1.0000  1.0000    0.5000  0.5000
+      Major-diabetes  0.8684  0.7674  0.8837  0.8148    0.7917  0.8837  0.8352    0.8250  0.8256
+     Makes-decisions  0.9762  0.9880  0.3333  0.9820    0.5000  0.3333  0.4000    0.6910  0.6606
+             Mi-6mos  0.3333  0.5000  0.8974  0.4000    0.9459  0.8974  0.9211    0.6605  0.6987
                       ------------------------------    ----------------------    --------------
-     Overall (micro)  0.6952  0.7546  0.7493  0.7237    0.8012  0.7493  0.7744    0.7490  0.7520
-     Overall (macro)  0.5855  0.7749  0.7529  0.5931    0.7192  0.7529  0.6950    0.6440  0.7639
+     Overall (micro)  0.8360  0.9107  0.8756  0.8717    0.9337  0.8756  0.9037    0.8877  0.8931
+     Overall (macro)  0.6620  0.7600  0.7781  0.6928    0.8873  0.7781  0.8189    0.7559  0.7691
 
-                                                   288 files found
 ```
 
-A few notes to explain this output:
-- The "288" represents the number of files the script was run on. This means that 288 files have the same names in both the input folders.
-- The official ranking measure is Overall (micro) F(b=1) (0.7490 in the example above).
+The official ranking measure is Overall (micro) F(b=1) (0.8877).
 
 ### Criterion
 
-In this study we tried to predict based on textual hisotry of patients if they meet or not the following medical criteria:
+In this study - based on a textual hisotry of patients - we wanted to predict if they meet or not the following medical criteria:
 
 - Abdominal
 - Advanced-cad
