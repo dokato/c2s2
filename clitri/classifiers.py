@@ -53,10 +53,10 @@ def build_model(clf, trdata, annotations, tfidf_name, label, file_to_save = None
         vectorizer = load_pickle(tfidf_name)
         annot_enc = np.array([encode_annotations(ant) for ant in annotations])
         tag_enc = get_tag_encoding(annot_enc, label)
-        #frsttag, sectag = balancing(tag_enc, method='under')
+        frsttag, sectag = balancing(tag_enc, method='under')
         X_tr = vectorizer.transform(trdata)
-        #X_tr = X_tr[np.r_[frsttag,sectag]] # balanced training data
-        #tag_enc = tag_enc[np.r_[frsttag,sectag]] # balanced labels
+        X_tr = X_tr[np.r_[frsttag,sectag]] # balanced training data
+        tag_enc = tag_enc[np.r_[frsttag,sectag]] # balanced labels
         if clf.__class__.__name__ != 'HelmholtzClassifier':
             #clf = Pipeline([
             #        ('feature_selection', SelectFromModel(LinearSVC(penalty="l1", dual=False))),
