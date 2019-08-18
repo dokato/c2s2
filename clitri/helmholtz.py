@@ -5,6 +5,11 @@ from nltk.corpus import stopwords
 from collections import Counter
 from sklearn.linear_model import LogisticRegression
 
+'''
+This approach has not been used in the final solution.
+It relies on Helmholtz definition of importance of unexpected events.
+'''
+
 lemmatizer = WordNetLemmatizer()
 
 def nfa(m, K, N):
