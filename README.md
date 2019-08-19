@@ -90,3 +90,8 @@ In this study - based on a textual hisotry of patients - we wanted to predict if
 - Makes-decisions
 - Mi-6mos
 
+### Details
+
+For details of this approach, please referto this article: *SOON*.
+
+If you use lexicons, or part of our code, please cite above-mentioned article.
