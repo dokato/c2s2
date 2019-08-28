@@ -1,0 +1,66 @@
+c / c / e,cyanosis clubbing edema
+c / o,complaining of
+c / b,complicated by
+c / w,continue with
+f / h,family history
+n / v,nausea and vomiting
+o / e,on examination
+e / o,evidence of
+nc / at,normocephalic atraumatic
+at / nc,normocephalic atraumatic
+d / c,discontinued
+d / o,disorder
+f / up,follow up
+f / u,follow up
+s / p,status post
+h / o,history of
+y / o,year old
+r / o,rule out
+w / u,workup
+w / out,without
+w / o,without
+b blocker,beta blocker
+b blockers,beta blocker
+k dur,potassium chloride
+heart attack, myocardial infarction
+congestive failure,congestive heart failure
+genito urinary,genitourinary
+non tender,nontender
+non distended,nondistended
+c diff,clostridium difficile BACTERIA
+e coli,escherichia coli BACTERIA
+cervical ca,cervical cancer
+breast ca,breast cancer
+prostate ca,prostate cancer
+prostatic ca,prostatic cancer
+bowel ca,bowel cancer
+colon ca,colon cancer
+colorectal ca,colorectal cancer
+kidney ca,kidney cancer
+renal ca,renal cancer
+bladder ca,bladder cancer
+cell ca,basal cell cancer
+pancreatic ca,pancreatic cancer
+lung ca,lung cancer
+gynecologic ca,gynecologic cancer
+thyroid ca,thyroid cancer
+throat ca,throat cancer
+ovarian ca,ovarian cancer
+esophageal ca,esophageal cancer
+skin ca,skin cancer
+bone ca,bone cancer
+uterine ca,uterine cancer
+degenerative joint disease,osteoarthritis
+inferior infarction,inferior myocardial infarction
+inferior infarct,inferior myocardial infarction
+posterior infarction,posterior myocardial infarction
+posterior infarct,posterior myocardial infarction
+anterior infarction,anterior myocardial infarction
+anterior infarct,anterior myocardial infarction
+lateral infarction,lateral myocardial infarction
+lateral infarct,lateral myocardial infarction
+anterolateral infarction,anterolateral myocardial infarction
+anterolateral infarct,anterolateral myocardial infarction
+posterolateral infarction,posterolateral myocardial infarction
+posterolateral infarct,posterolateral myocardial infarction
+myocardial infarct,myocardial infarction

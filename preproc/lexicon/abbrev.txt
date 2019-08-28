@@ -1,0 +1,542 @@
+sister,family member
+sisters,family member
+brother,family member
+brothers,family member
+sibling,family member
+siblings,family member
+mom,family member
+mother,family member
+father,family member
+dad,family member
+grandmother,family member
+grandfather,family member
+son,family member
+sons,family member
+daughter,family member
+daughters,family member
+child,family member
+children,family member
+niece,family member
+nieces,family member
+newphew,family member
+newphews,family member
+aunt,family member
+aunts,family member
+uncle,family member
+uncles,family member
+cousin,family member
+cousins,family member
+grandkid,family member
+grandkids,family member
+grandchild,family member
+grandchildren,family member
+etoh,ALCOHOL
+beer,beer (ALCOHOL)
+beers,beers (ALCOHOL)
+wine,wine (ALCOHOL)
+whiskey,whiskey (ALCOHOL)
+whiskeys,whiskeys (ALCOHOL)
+rum,rum (ALCOHOL)
+rums,rums (ALCOHOL)
+vodka,vodka (ALCOHOL)
+vodkas,vodkas (ALCOHOL)
+scotch,scotch (ALCOHOL)
+tequila,tequila (ALCOHOL)
+tequilas,tequilas (ALCOHOL)
+gin,gin (ALCOHOL)
+gins,gins (ALCOHOL)
+lispro,lispro INSULIN
+humalog,humalog INSULIN
+aspart,aspart INSULIN
+novolog,novolog INSULIN
+glulisine,glulisine INSULIN
+apidra,apidra INSULIN
+velosulin,velosulin INSULIN
+basaglar,basaglar INSULIN
+lantus,lantus INSULIN
+toujeo,toujeo INSULIN
+levemir,levemir INSULIN
+tresiba,tresiba INSULIN
+humulin,humulin INSULIN
+novolin,novolin INSULIN
+nph,nph INSULIN
+cath,catheterization
+caths,catheterization
+afib,atrial fibrillation
+afeb,afebrile
+yo,year old
+yom,year old male
+yorhm,year old male
+yof,year old female
+yow,year old female
+cp,chest pain
+dr.,doctor
+dr,doctor
+bp,blood pressure
+sbp,systolic blood pressure
+dbp,diastolic blood pressure
+eeg,electroencephalography
+eegs,electroencephalography
+ekg,electrocardiogram
+ekgs,electrocardiogram
+ecg,electrocardiogram
+ecgs,electrocardiogram
+lv,left ventricle
+lvh,left ventricular hypertrophy
+lad,left axis deviation
+rad,right axis deviation
+rae,right atrial enlargement
+lae,left atrial enlargement
+rusb,right upper sternal border
+lusb,left upper sternal border
+llsb,left lower sternal border
+nsr,normal sinus rhythm
+rhyt,rhythm
+htn,hypertension
+pt,patient
+inpt,inpatient
+outpt,outpatient
+wbc,white blood cells
+wbcs,white blood cells
+rbc,red blood cells
+rbcs,red blood cells
+cad,coronary artery disease
+asa,aspirin
+ecasa,aspirin
+ef,ejection fraction
+ldl,low density lipoprotein 
+hdl,high density lipoprotein
+mcv,mean corpuscular volume
+jvp,jugular venous pressure
+le,lower extremity
+lle,left lower extremity
+rle,right lower extremity
+ue,upper extremity
+lue,upper extremity
+rue,upper extremity
+abd,abdomen
+abdo,abdomen
+cxr,chest xray
+xrays,xray
+dm,diabetes mellitus
+dm1,diabetes mellitus 1
+dm2,diabetes mellitus 2
+dmii,diabetes mellitus 2
+iddm,diabetes mellitus 1
+niddm,diabetes mellitus 2
+hct,hematocrit
+tab,tablet
+tabs,tablet
+hgb,hemoglobin
+rca,right coronary artery
+lca,left coronary artery
+nka,no known allergies
+nkda,no known drug allergies
+cta,computed tomography angiography
+mi,myocardial infarction
+imi,inferior myocardial infarction
+stemi,st elevation myocardial infarction
+nstemi,non st elevation myocardial infarction
+cabg,coronary artery bypass graft surgery
+pci,percutaneous coronary intervention
+pcis,percutaneous coronary intervention
+pcp,primary care physician
+gerd,gastroesophageal reflux disease
+std,st segment depression
+afib,atrial fibrillation
+af,atrial fibrillation
+vfib,ventricular fibrillation
+vf,ventricular fibrillation
+mri,magnetic resonance imaging
+hctz,hydrochlorothiazide
+hpi,history of the present illness
+pmh,past medical history
+pmhx,past medical history
+psh,past surgical history
+pshx,past surgical history
+psurhx,past surgical history
+dvt,deep vein thrombosis
+dvts,deep vein thrombosis
+cpap,continuous positive airway pressure
+rv,right ventricle
+lv,left ventricle
+ivf,intravenous fluids 
+ivfs,intravenous fluids 
+svg,saphenous vein graft
+pda,posterior descending artery
+sob,shortness of breath
+cp,chest pain
+chf,congestive heart failure
+copd,chronic obstructive pulmonary disease
+pvd,peripheral vascular disease
+nad,no apparent distress
+inr,international normalized ratio
+ros,review of systems
+mibi,myocardial perfusion imaging test
+uti,urinary tract infection
+urti,upper respiratory tract infection
+cbc,complete blood count
+pna,pneumonia
+ntg,nitroglycerin
+tng,tri nitroglycerin
+nitro,nitroglycerin
+nitroglycerine,nitroglycerin
+bnp,brain natriuretic peptide
+vit,vitamin
+mvi,multivitamins
+mvit,multivitamins
+lima,left internal mammary artery
+abn,abnormal
+abnl,abnormal
+jvd,jugular venous distension
+ems,emergency medical services
+rtc,return to clinic
+mra,magnetic resonance angiography
+bg,blood glucose
+glc,glucose
+ptca,percutaneous transluminal coronary angioplasty
+sfa,superficial femoral artery
+bph,benign prostatic hyperplasia
+tia,transient ischemic attack
+la,left atrium
+hx,history
+fh,family history
+fhx,family history
+famhx,family history
+sh,social history
+shx,social history
+sochx,social history
+xrt,radiotherapy
+aaa,abdominal aortic aneurysm
+lcx,left circumflex coronary artery
+vna,visiting nurse association
+attmp,attempt
+pet,positron emission tomography
+pnd,paroxysmal nocturnal dyspnea?
+eom,extraocular movement
+eoms,extraocular movement
+eomi,extraocular movement intact
+perrl,pupils equally round and reactive to light
+perrla,pupils equally round and reactive to light and accomodation
+mmm,mucus membranes moist
+heent,head eyes ears nose throat
+ent,ears nose throat
+psych,psychiatric
+neuro,neurologic
+lymph,lymphatic
+gu,genitourinary
+doe,dyspnea on exertion
+hjr,hepato jugular reflux
+ctab,clear to auscultation bilaterally
+cri,chronic renal insufficiency
+arf,acute renal failure
+crf,chronic renal failure
+ckd,chronic kidney disease
+ras,renal artery stenosis
+rr,respiratory rate
+rrr,regular rate and rhythm
+mmse,mini mental status exam
+dtr,deep tendon reflex
+nd,nondistended
+nt,nontender
+ntnd,nontender nondistended
+aicd,automated implantable cardioverter defibrillator
+icd,implantable cardioverter defibrillator
+tah,total abdominal hysterectomy
+ht,height
+wt,weight
+wgt,weight
+ha,headache
+palp,palpitations
+sptm,sputum
+uri,upper respiratory infection
+aka,above the knee amputation
+bka,below the knee amputation
+wnl,within normal limits
+avr,aortic valve replacement
+mvr,mitral valve replacement
+mvp,mitral valve prolapse
+vss,vital signs stable
+turp,trans uretheral prostatectomy
+gen,general
+aam,african american male
+aaf,african american female
+wm,white male
+wf,white female
+iv,intravenous
+sc,subcutaneous
+sl,sublingual
+inh,inhaled
+bun,blood urea nitrogen
+gfr,glomerular filtration rate
+mch,mean cell hemoglobin
+mchc,mean corpuscular hemoglobin concentration
+esrd,end stage renal disease
+hd,hemodialysis
+mpgn,membranoproliferative glomerulonephritis
+avf,arteriovenous fistula
+ct,computer tomography
+gi,gastrointestinal
+ibd,inflammatory bowel disease
+vq,pulmonary ventilation perfusion (LUNG)
+cn,cranial nerves
+cn,cranial nerves
+ptt,partial thromboplastin time
+ett,exercise tolerance test
+bb,beta blocker
+bblocker,beta blocker
+bblockers,beta blocker
+betablocker,beta blocker
+betablockers,beta blocker
+ace,angiotensin converting enzyme
+acei,angiotensin converting enzyme inhibitor
+ccb,calcium channel blocker
+mcs,middle cerebral artery
+hcl,hydrochloride
+ica,internal carotid artery
+soc,social
+riss,regular insulin sliding scale
+nl,normal
+norm,normal
+egd,upper endoscopy
+ns,normal saline
+chemo,chemotherapy
+chemotx,chemotherapy
+yr,year
+yrs,years
+wk,week
+wks,weeks
+wkend,weekend
+wkends,weekends
+pta,percutaneous transluminal angioplasty
+cv,cardiovascular
+sr,slow release
+sem,systolic ejection murmur
+dept,department
+ew,emergency department
+er,emergency department
+ed,emergency department
+gu,genitourinary
+bmi,body mass index
+rom,range of motion
+cf,cystic fibrosis
+cmv,cytomegalovirus
+oa,osteoarthritis
+djd,osteoarthritis
+ldh,lactate dehydrogenase
+hiv,human immunodeficiency virus
+hpv,human papilloma virus
+osa,obstructive sleep apnea
+rbbb,right bundle branch block
+lbbb,left bundle branch block
+irbbb,incomplete right bundle branch block
+ilbbb,incomplete left bundle branch block
+ivcd,intraventricular conduction delay
+lvef,left ventricular ejection fraction
+med,medications
+meds,medications
+usoh,usual state of health
+chol,cholesterol
+fu,follow up
+followup,follow up
+hep,hepatitis
+hcv,hepatitis c virus
+hbv,hepatitis b virus
+infxn,infection
+rxn,reaction
+fxn,function
+sx,symptom
+sxs,symptoms
+dx,diagnosis
+dxed,diagnosis
+dxd,diagnosis
+ddx,differential diagnosis
+abx,antibiotics
+bx,biopsy
+fx,fructure
+cx,culture
+vax,vaccine
+ck,creatine kinase
+mb,creatine kinase mb
+isoenz,isoenzymes
+isoenzy,isoenzymes
+ppd,packs per day (cigarettes)
+cig,cigarettes
+cigs,cigarettes
+cigar,cigarettes
+cigars,cigarettes
+tob,tobacco
+tobago,tobacco
+ppi,proton pump inhibitor
+dispo,disposition
+clr,clear
+fs,fingerstick
+ccu,coronary care unit
+ua,urine analysis
+npo,nothing orally
+mn,midnight
+tte,transthoracic echocardiogram
+twi,t wave inversion
+pmi,point of maximum impulse
+hsm,hepatosplenomegaly
+bpg,bypass graft
+cont,continue
+nas,nasal
+lmr,longitudinal medical record
+csf,cerebrospinal fluid
+lab,laboratory
+labs,laboratory
+pica,posterior inferior cerebellar artery
+ngt,nasogastric tube
+gyn,gynecology
+irreg,irregular
+eval,evaluation
+elev,elevated
+signif,significant
+prox,proximal
+dist,distal
+defib,defibrillator
+sys,systolic
+resp,respiratory
+sus,suspension
+pulm,pulmonary
+cor,coronary
+onc,oncology
+bipap,bilevel positive airway pressure
+bpap,bilevel positive airway pressure
+ent,ear nose throat
+rcc,renal cell carcinoma
+crc,colorectal carcinoma
+rx,treatment
+rxed,treatment
+ppx,treatment
+dob,date of birth
+rvr,rapid ventricular rate
+mrn,medical record number
+sz,seizure
+aed,antiepileptic drugs
+aeds,antiepileptic drugs
+neg,negative
+occas,occasional
+lft,liver function test
+lfts,liver function test
+acs,acute coronary syndrome
+adl,activities of daily living
+adls,activities of daily living
+amox,amoxicillin
+amt,amount
+anticoag,anticoagulation
+apap,acetaminophen
+approx,approximately
+appt,appointment
+appts,appointment
+azithro,azithromycin
+bact,bacterial
+bil,bilateral
+bilat,bilateral
+bld,blood
+cfa,common femoral artery
+chem,chemistry
+cipro,ciprofloxacin
+coag,coagulation
+coags,coagulation
+colo,colonscopy
+conj,conjunctiva
+constip,constipation
+ctrl,control
+cvat,costovertebral angle tenderness
+cva,cerebrovascular accident
+cvd,cardiovascular disease
+cvs,cardiovascular
+cv,cardiovascular
+decub,decubitus
+delerium,delirium
+depr,depression
+depresion,depression
+derm,dermal
+dir,directions
+emg,electromyography
+endo,endocrine
+epo,erythropoietin
+ercp,endoscopic retrograde cholangiopancreatography
+esp,especially
+esr,erythrocyte sedimation rate
+fbs,fasting blood sugar
+ffp,fresh frozen plasma
+freq,frequency
+gent,gentamicin
+hypercoag,hypercoagulable
+iabp,intra aortic balloon pump
+impr,impression
+insuff,insufficiency
+levo,levofloxacin
+levoflox,levofloxacin
+mammo,mammogram
+nabs,normal active bowel sounds
+ncat,normocephalic atraumatic
+occ,occasional
+ophthal,ophthalmologic
+orif,open reduction internal fixation
+mgmt,management
+ortho,orthopedic
+pcn,penicillin
+mca,middle cerebral artery
+pca,posterior cerebral artery
+periph,peripheral
+pfo,patent foramen ovale
+pft,pulmonary function test
+pfts,pulmonary function test
+prbc,packed red blood cells
+prbcs,packed red blood cells
+prelim,preliminary
+preop,preoperative
+postop,postoperative
+ptsd,post traumatic stress disorder
+revasc,revascularization
+rheum,rheumatology
+sens,sensory
+skel,skeletal
+musc,musculo
+msk,musculo skeletal
+spep,serum protein electrophoresis
+sulfa,sulfamethoxazole
+surg,surgery
+vasc,vascular
+tacro,tacrolimus
+trop,troponin
+vanc,vancomycin
+vanco,vancomycine
+vancomycine,vancomycin
+wdwn,well developed well nourished
+wd,well developed
+wn,well nourished
+halluc,hallucination
+microalb,microalbumin
+bsl,baseline
+dka,diabetic ketoacidosis
+sbo,small bowel obstruction
+rehab,rehabilitation
+pls,please
+isdn,isosorbide dinitrate
+crrt,continuous renal replacement therapy
+crrtx,continuous renal replacement therapy
+lrrtx,living related renal transplantation
+lurtx,living unrelated renal transplantation
+tsh,thyroid stimulating hormone
+kcl,potassium chloride
+kdur,potassium chloride
+klorvess,potassium chloride
+klotrix,potassium chloride
+chd,congenital heart disease
+ishd,ischemic heart disease
+cashd,coronary atherosclerotic heart disease
+dhd,diabetic heart disease
+cre,creatinine
+cr,creatinine
+tkr,total knee replacement
+sbft,small bowel follow through
+ischaemia,ischemia
+ischaemic,ischemic
+blockers,blocker
+inhibitors,inhibitor
+nitrates,nitrate

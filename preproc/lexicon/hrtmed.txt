@@ -1,0 +1,199 @@
+nitrate,nitrate HRTMED
+beta blocker,beta blocker HRTMED
+abbokinase,abbokinase HRTMED
+accupril,accupril BPRMED
+acebutolol,beta blocker HRTMED
+aceon,aceon BPRMED
+acetylsalicylic acid,aspirin
+activase,activase HRTMED
+adalat,adalat BPRMED
+advicor,statin
+altace,altace BPRMED
+alteplase,alteplase HRTMED
+altocor,statin
+altoprev,statin
+amlodipine,amlodipine BPRMED
+angiotensin converting enzyme inhibitor,angiotensin converting enzyme inhibitor BPRMED
+ascriptin,aspirin
+aspergum,aspirin
+aspir,aspirin
+aspiritab,aspirin
+atacand,atacand BPRMED
+atenolol,beta blocker HRTMED
+avapro,avapro BPRMED
+azilsartan,azilsartan BPRMED
+benazepril,benazepril BPRMED
+benicar,benicar BPRMED
+betapace,beta blocker HRTMED
+bisoprolol,beta blocker HRTMED
+blocadren,beta blocker HRTMED
+brevibloc,beta blocker HRTMED
+coreg,beta blocker HRTMED
+bufferin,aspirin
+bumetanide,diuretic
+bumex,bumex diuretic
+caduet,caduet BPRMED
+ccb,ccb BPRMED
+calcium channel blocker,ccb BPRMED
+candesartan,candesartan BPRMED
+capoten,capoten BPRMED
+captopril,captopril BPRMED
+cardene,cardene BPRMED
+cardizem,cardizem BPRMED
+carvedilol,beta blocker HRTMED
+chlorothiazide,chlorothiazide
+chlorthalidone,chlorthalidone
+clevidipine,clevidipine BPRMED
+cleviprex,cleviprex BPRMED
+clopidogrel,clopidogrel HRTMED
+compactin,statin
+corgard,beta blocker HRTMED
+coumadin,coumadin HRTMED
+cozaar,cozaar BPRMED
+crestor,statin
+dalteparin,dalteparin HRTMED
+demadex,demadex diuretic
+dilacor,dilacor BPRMED
+diltiazem,diltiazem BPRMED
+cartia,diltiazem BPRMED
+diovan,diovan BPRMED
+diuril,diuril diuretic
+dynacirc,dynacirc BPRMED
+easprin,aspirin
+ecotrin,aspirin
+ecpirin,aspirin
+edarbi,edarbi BPRMED
+edecrin,edecrin diuretic
+enalapril,enalapril BPRMED
+enduron,enduron diuretic
+enoxaparin,enoxaparin HRTMED
+entercote,aspirin
+eprosartan,eprosartan BPRMED
+eptifibatide,eptifibatide HRTMED
+esidrix,esidrix diuretic
+esmilol,beta blocker HRTMED
+ethacrynate,ethacrynate diuretic
+ethacrynic,ethacrynate diuretic
+fasprin,aspirin
+felodipine,felodipine BPRMED
+fondaparinux,fondaparinux HRTMED
+fosinopril,fosinopril BPRMED
+fragmin,fragmin HRTMED
+furosemide,furosemide diuretic
+genacote,aspirin
+halfprin,aspirin
+heparin,heparin HRTMED
+hydrochlorothiazide,beta blocker HRTMED
+hydrodiuril,hydrodiuril diuretic
+hygroton,hygroton
+indapamide,indapamide diuretic
+inderal,beta blocker HRTMED
+inegy,statin
+integrilin,integrilin HRTMED
+irbesarten,irbesarten BPRMED
+isoptin,isoptin BPRMED
+isradipine,isradipine BPRMED
+jantoven,jantoven HRTMED
+kinlytic,kinlytic HRTMED
+labetalol,beta blocker HRTMED
+lasix,lasix diuretic
+lescol,statin
+levatol,beta blocker HRTMED
+lipex,statin
+lipitor,statin
+lipostat,statin
+lisinopril,lisinopril BPRMED
+livalo,statin
+livazo,statin
+lopressor,beta blocker HRTMED
+losartin,losartin BPRMED
+lotensin,lotensin BPRMED
+lotrel,lotrel BPRMED
+lovenox,lovenox HRTMED
+lozol,lozol diuretic
+mavik,mavik BPRMED
+methyclothiazide,methyclothiazide diuretic
+metolazone,metolazone diuretic
+metoprolol,beta blocker HRTMED
+toprol,beta blocker HRTMED
+mevacor,statin
+micardis,micardis BPRMED
+microzide,microzide diuretic
+minitran,nitrate HRTMED
+moexipril,moexipril BPRMED
+monopril,monopril BPRMED
+mykroz,mykroz diuretic
+nadolol,beta blocker HRTMED
+nebivolol,beta blocker HRTMED
+nicardipine,nicardipine BPRMED
+nifedipine,nifedipine BPRMED
+nimodipine,nimodipine BPRMED
+nimotop,nimotop BPRMED
+nisoldipine,nisoldipine BPRMED
+nitrek,nitrate HRTMED
+nitrocot,nitrate HRTMED
+nitroglycerin,nitrate HRTMED
+nitrol,nitrate HRTMED
+nitrolingual,nitrate HRTMED
+nitromist,nitrate HRTMED
+nitropaste,nitrate HRTMED
+nitropatch,nitrate HRTMED
+nitropress,nitroprusside HRTMED
+nitroprusside,nitroprusside HRTMED
+nitroquick,nitrate HRTMED
+nitrostat,nitrate HRTMED
+norvasc,norvasc BPRMED
+nymalize,nymalize BPRMED
+olmesartan,olmesartan BPRMED
+penbutolol,beta blocker HRTMED
+perindopril,perindopril BPRMED
+pitava,statin
+plavix,plavix HRTMED
+plendil,plendil BPRMED
+pravachol,statin
+prexxartan,prexxartan BPRMED
+prinivil,prinivil BPRMED
+procardia,procardia BPRMED
+propranolol,beta blocker HRTMED
+quinapril,quinapril BPRMED
+ramipril,ramipril BPRMED
+retavase,retavase HRTMED
+reteplase,reteplase HRTMED
+sectral,beta blocker HRTMED
+selektine,statin
+spironolactone,spironolactone BPRMED
+sotalol,beta blocker HRTMED
+telmisartan,telmisartan BPRMED
+tenecteplase,tenecteplase HRTMED
+tenormin,beta blocker HRTMED
+teveten,teveten BPRMED
+tiazac,tiazac BPRMED
+timolol,beta blocker HRTMED
+tnkase,tnkase HRTMED
+torsemide,torsemide diuretic
+trandolapril,trandolapril BPRMED
+univasc,univasc BPRMED
+urokinase,urokinase HRTMED
+valsartan,valsartan BPRMED
+vasotec,vasotec BPRMED
+verapamil,verapamil BPRMED
+verelan,verelan BPRMED
+vytorin,statin
+warfarin,warfarin HRTMED
+zaroxolyn,zaroxolyn diuretic
+zebeta,beta blocker HRTMED
+zestril,zestril BPRMED
+zocor,statin
+coronex,nitrate HRTMED
+isordil,nitrate HRTMED
+cedocard,nitrate HRTMED
+coradur,nitrate HRTMED
+imdur,nitrate HRTMED
+digoxin,digoxin HRTMED
+lanoxin,lanoxin HRTMED
+carduran,carduran BPRMED
+cardura,cardura BPRMED
+doxazosin,doxazosin BPRMED
+cardiac medications,cardiac medications HRTMED
+hypertension medications,hypertension medications BPRMED
+blood pressure medications,blood pressure medications BPRMED
