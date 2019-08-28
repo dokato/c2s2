@@ -92,6 +92,6 @@ In this study - based on a textual hisotry of patients - we wanted to predict if
 
 ### Details
 
-For details of this approach, please referto this article: *SOON*.
+For details of this approach, please refer to this article: *SOON*.
 
 If you use lexicons, or part of our code, please cite above-mentioned article.
