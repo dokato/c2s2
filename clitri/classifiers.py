@@ -117,7 +117,7 @@ if __name__ == '__main__':
                         build tf idf: specify name to save it. Date will be added.
                         To overwrite name it simply tfidf.""")
     #parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.05, max_depth=5, n_estimators=70)', type = str, help="classifier to choose")
-    parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.08, max_depth=5, n_estimators=70)', type = str, help="classifier to choose")
+    parser.add_argument("-c", "--classifier", dest="classifier", default='XGBClassifier(learning_rate=.05, max_depth=5, n_estimators=100)', type = str, help="classifier to choose")
     parser.add_argument("-n", "--name", dest="name", type = str, default='model',
                          help="method of source reconstruction")
     parser.add_argument("-v", "--vectorizer", dest="vectorizer", type = str, default = None,
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     if not args.tfidf is None:
         build_tfidf(texts, 'models/' + args.tfidf)
     else:
-        print args.classifier
+        print(args.classifier)
         if args.classifier != 'HelmholtzClassifier':
             code_to_call = args.classifier + "()" if not args.classifier.endswith(')') else args.classifier
             clf = eval(code_to_call)

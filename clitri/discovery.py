@@ -188,7 +188,17 @@ class DiscoverDietSupp(Discover):
         """
         super(DiscoverDietSupp, self).__init__(data)
         self.tag = 'DIETSUPP-2MOS'
-        self.time_limit = 2*30 # in days
+        #self.time_limit = 2*30 # in days
+
+    def _textual_detection(self, txt):
+        """
+        Detect based on string analysis.
+        """
+        regket = re.compile('SPLMNT')
+        regdfc = re.compile('DFCNCY')
+        if len(regket.findall(txt)) + len(regdfc.findall(txt)) > 1:
+            return True
+        return False
 
 class DiscoverEnglish(Discover):
     """Discover for ENGLISH clinical trial"""
