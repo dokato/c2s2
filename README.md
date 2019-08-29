@@ -70,7 +70,7 @@ Our best score:
 
 ```
 
-The official ranking measure is Overall (micro) F(b=1) (0.8877).
+The official ranking measure is Overall (micro) F(b=1) (0.8904).
 
 ### Criterion
 
