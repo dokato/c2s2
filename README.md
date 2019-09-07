@@ -23,6 +23,7 @@ runsequence.sh
 README.md 
 testoutput/
 output/
+preproc/
 ```
 
 where `clitri/` is the folder with scripts for training, testing models; `test_gold/` - is folder with annotation of the test files; `models/` is the folder where you keep trained ML models and vectorisers; `output/` output of training data (eg. for crossvalidation); `testoutput/` output of prediction on test set.
@@ -32,7 +33,20 @@ where `clitri/` is the folder with scripts for training, testing models; `test_g
 
 ## Running the preprocessing (feature extraction)
 
-TODO
+If you followed the directory structure from above, you should be able to navigate into the `preproc/` folder and simply call:
+
+```
+python preprocessing.py
+```
+
+You might want to also change `in_dir` variable from `preprocessing.py` script to the path containing the raw data:
+
+```
+# --- input files
+in_dir = './00_input/'
+```
+
+All the lexicons used for data cleaning and filtering are available in `preproc/lexicon/` catalogue.
 
 ## Running the classification script
 
