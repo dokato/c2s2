@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB       # doesn't accept sparse representation (mu .toarray() your data)
 from sklearn.tree import DecisionTreeClassifier
 from helmholtz import HelmholtzVectorizer
 from xgboost import XGBClassifier
