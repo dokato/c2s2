@@ -108,4 +108,13 @@ In this study - based on a textual hisotry of patients - we wanted to predict if
 
 For details of this approach, please refer to this article: https://medinform.jmir.org/2019/4/e15980/.
 
-If you use lexicons, or part of our code, please cite the above-mentioned article.
+If you use lexicons, or part of our code, please cite the above-mentioned article as:
+
+```
+Spasic I, Krzeminski D, Corcoran P, Balinsky A
+Cohort Selection for Clinical Trials From Longitudinal Patient Records: Text Mining Approach
+JMIR Med Inform 2019;7(4):e15980
+URL: https://medinform.jmir.org/2019/4/e15980
+DOI: 10.2196/15980
+PMID: 31674914
+```
