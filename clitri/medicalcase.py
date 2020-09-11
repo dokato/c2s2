@@ -118,8 +118,8 @@ def load_whole_dataset(path = 'train'):
     for subj in [x[:-4] for x in os.listdir(path)]:
         mc = MedicalCase(subj,
             description_path = CONFIG_PATH['preprocessed'].format(subj),
-            annotation_path= CONFIG_PATH['annotations'].format(subj),
-            conner = CONFIG_PATH['conner'].format(subj))
+            annotation_path= CONFIG_PATH['annotations'].format(subj)) 
+        #conner = CONFIG_PATH['conner'].format(subj)) - not used in the end
         mcdata.append(mc)
     return mcdata
 
@@ -146,7 +146,6 @@ if __name__ == '__main__':
     subj = sys.argv[1]
     mc = MedicalCase(subj,
         description_path = 'preproc/02_main/{}.xml.txt'.format(subj),
-        annotation_path = 'train/{}.xml'.format(subj),
-        conner = 'condtaggeddata/{}.xml.con'.format(subj))
+        annotation_path = 'train/{}.xml'.format(subj)) #conner = 'condtaggeddata/{}.xml.con'.format(subj))
     #print mc.gold
     #print mc.conner.tags
