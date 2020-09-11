@@ -31,7 +31,7 @@ DEFAULT_VECTORIZER = 'models/count12_2019_01_23_14_28_32.pkl'
 CONFIG_PATH = {
     'preprocessed': 'preproc/02_main/{}.xml.txt',
     'annotations': 'train/{}.xml',
-    'conner': 'condtaggeddata/{}.xml.con',
+    'conner': 'condtaggeddata/{}.xml.con', # not used (for automatic named entity recognition of clinical terms)
     'test_preprocessed': 'preproctst/02_main/{}.xml.txt',
 }
 ######################################
