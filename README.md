@@ -5,7 +5,7 @@ Data to train the models is available upon request at https://n2c2.dbmi.hms.harv
 
 ## Setup
 
-You might need the following to run these scripts:
+You need the following requirements to run these scripts:
 ```
 - python 2.7
 - numpy
@@ -13,7 +13,7 @@ You might need the following to run these scripts:
 - xgboost
 - conreader (optional)
 ```
-You might also need the following data structure:
+You also need the following catalogue structure:
 
 ```
 clitri/
